@@ -1,0 +1,23 @@
+# Ignorar node_modules dentro de Aplicativo
+Aplicativo/node_modules/
+
+# Ignorar build do Android dentro de Aplicativo
+Aplicativo/android/app/build/
+Aplicativo/android/.gradle/
+Aplicativo/android/local.properties
+
+# Ignorar build do iOS dentro de Aplicativo
+Aplicativo/ios/build/
+Aplicativo/ios/Pods/
+Aplicativo/ios/DerivedData/
+
+# Ignorar caches e arquivos temporários dentro de Aplicativo
+Aplicativo/.bundle/
+Aplicativo/.vscode/
+Aplicativo/.DS_Store
+Aplicativo/*.log
+
+# Ignorar logs e caches gerais
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
