@@ -100,7 +100,7 @@ Novamente na pasta api pelo terminal e com o venv ativado use o seguinte comando
 
 Com tudo configurado para utilizar a api use o seguinte comando no terminal (na pasta api)
 
-	uvicorn src.app:app --reload
+	uvicorn src.api:app --reload
 
 Abra a url que aparecer no terminal, no navegador adicione /docs ao fim da url para ver o Swagger	
 
