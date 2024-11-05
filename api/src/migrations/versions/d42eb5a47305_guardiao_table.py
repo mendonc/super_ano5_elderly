@@ -1,4 +1,4 @@
-"""guardian_table
+"""mensagem da nova version , tipo create_guardian_table
 
 Revision ID: d42eb5a47305
 Revises: adc93f6c99a8
@@ -11,11 +11,11 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = 'd42eb5a47305'
-down_revision = '47df0f44f9233'
+down_revision = None
 branch_labels = None
 depends_on = None
 
-table_name = 'guardiao_teste'
+table_name = 'guardiao_table'
 
 def upgrade() -> None:
     op.create_table(

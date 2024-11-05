@@ -1,4 +1,4 @@
-"""medico_table
+"""mensagem da nova version , tipo create_medico_table
 
 Revision ID: 7000497fa020
 Revises: d42eb5a47305
@@ -15,7 +15,7 @@ down_revision = '47df0f44f923'
 branch_labels = None
 depends_on = None
 
-table_name = 'medico_teste'
+table_name = 'medico_table'
 
 def upgrade() -> None:
     op.create_table(

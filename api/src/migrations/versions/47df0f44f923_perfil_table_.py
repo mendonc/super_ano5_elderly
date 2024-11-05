@@ -1,4 +1,4 @@
-"""create_profile_table
+"""mensagem da nova version , tipo create_profile_table
 
 Revision ID: 47df0f44f923
 Revises: 707b5681f592

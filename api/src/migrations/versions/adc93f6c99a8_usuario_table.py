@@ -1,4 +1,4 @@
-"""_user_table
+"""mensagem da nova version , tipo create_user_table
 
 Revision ID: adc93f6c99a8
 Revises: 47df0f44f923
@@ -15,7 +15,7 @@ down_revision = '47df0f44f923'
 branch_labels = None
 depends_on = None
 
-table_name = 'usuario_teste'
+table_name = 'usuario_table'
 
 def upgrade() -> None:
     op.create_table(
