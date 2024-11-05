@@ -19,7 +19,7 @@ table_name = 'usuario_table'
 
 def upgrade() -> None:
     op.create_table(
-        table_name,,
+        table_name,
         sa.Column('medicamentos', sa.String(length=200), nullable=False),
         sa.Column('sintomas', sa.String(length=200), nullable=False),
     )

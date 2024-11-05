@@ -19,7 +19,7 @@ table_name = 'guardiao_table'
 
 def upgrade() -> None:
     op.create_table(
-        table_name,,
+        table_name,
         sa.Column('IdososMonitorados', sa.String(length=200), nullable=False),
     )
 
