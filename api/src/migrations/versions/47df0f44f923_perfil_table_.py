@@ -15,7 +15,7 @@ down_revision = None
 branch_labels = None
 depends_on = None
 
-table_name = 'profile_teste'
+table_name = 'profile_table'
 
 def upgrade() -> None:
     op.create_table(
