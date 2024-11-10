@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 
 // Importe o SVG do médico
-import MedicoIcon from '../assets/Medico.svg';
+import MedicoIcon from '../../assets/MedicoFoto.svg';
 
 const HeaderContainer = styled.View`
   background-color: #25306b; /* Azul escuro */

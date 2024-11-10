@@ -1,13 +1,13 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { Container } from './styles';
-import Header from '../../components/Header';
+import Header from '../../../components/ComponentsMedico/Header';
 
 export default () => {
     return (
         <Container>
             <Header />
-            <Text>Mais</Text>
+            <Text>Pacientes</Text>
         </Container>
     );
 }

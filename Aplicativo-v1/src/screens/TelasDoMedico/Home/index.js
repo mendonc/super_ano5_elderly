@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { Container } from './styles';
-import Header from '../../components/Header';
-import GreetingSection from '../../components/SaudacaoSection';
+import Header from '../../../components/ComponentsMedico/Header';
+import GreetingSection from '../../../components/ComponentsMedico/SaudacaoSection';
 import styled from 'styled-components/native';
 
 const TopSectionContainer = styled.View`

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import MainTab from './MainTab';
+import TabMedico from './TabMedico';
 
 const Stack = createStackNavigator();
 
@@ -11,7 +11,7 @@ export default () => (
             headerShown: false
         }}
     >
-        <Stack.Screen name="MainTab" component={MainTab} />
+        <Stack.Screen name="TabMedico" component={TabMedico} />
     </Stack.Navigator>
 
 );
