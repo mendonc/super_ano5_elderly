@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-import BemEstarIcon from '../assets/BemEstar.svg';
-import PacientesIcon from '../assets/Pacientes.svg';
-import CalendarioIcon from '../assets/calendário.svg';
-import Bars3Icon from '../assets/Bars3.svg';
+import BemEstarIcon from '../../assets/BemEstar.svg';
+import PacientesIcon from '../../assets/Pacientes.svg';
+import CalendarioIcon from '../../assets/calendário.svg';
+import Bars3Icon from '../../assets/Bars3.svg';
 
 const TabArea = styled.View`
     height: 70px;

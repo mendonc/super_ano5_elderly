@@ -1,12 +1,12 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import CustomTabBar from '../components/CustomTabBar';
+import CustomTabBar from '../../components/ComponentsMedico/CustomTabBar';
 
-import Home from '../screens/Home';
-import Paciente from '../screens/Paciente';
-import Calendario from '../screens/Calendario';
-import Mais from '../screens/Mais';
+import Home from '../../screens/TelasDoMedico/Home';
+import Paciente from '../../screens/TelasDoMedico/Paciente';
+import Calendario from '../../screens/TelasDoMedico/Calendario';
+import Mais from '../../screens/TelasDoMedico/Mais';
 
 const Tab = createBottomTabNavigator();
 
