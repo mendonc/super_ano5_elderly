@@ -1,35 +1,51 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { Container } from './styles';
+import { 
+    Container, 
+    TopSectionContainer, 
+    AlertTitle, 
+    AlertContainer, 
+    NameText, 
+    InfoText, 
+    AlertIconContainer 
+} from './styles';
 import Header from '../../../components/ComponentsMedico/Header';
-import GreetingSection from '../../../components/ComponentsMedico/SaudacaoSection';
-import styled from 'styled-components/native';
-
-const TopSectionContainer = styled.View`
-  background-color: #b0d4e3; /* Azul claro */
-  padding-bottom: 20px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-`;
-
-const AlertTitle = styled.Text`
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-  margin: 15px 0 10px; /* Espaçamento acima e abaixo do título */
-  padding-left: 20px; /* Alinhamento à esquerda */
-`;
-
+import AlertaIcon from '../../../assets/Alerta.svg'; // Certifique-se de ajustar o caminho correto do SVG
 
 export default () => {
     return (
         <Container>
-           <TopSectionContainer>
-                <Header />
-                <GreetingSection />
-            </TopSectionContainer>
+            {/* Cabeçalho */}
+            <Header />
+
+            {/* Título da seção */}
             <AlertTitle>Alertas</AlertTitle>
-            <Text style={{ paddingLeft: 20 }}>Exemplos de Alerta</Text>
+
+            {/* Exemplo de alerta */}
+            <AlertContainer>
+                {/* Ícone de alerta */}
+                <AlertIconContainer>
+                    <AlertaIcon width={30} height={30} fill="#ff0000" />
+                </AlertIconContainer>
+
+                {/* Informações do alerta */}
+                <NameText>Joãozinho</NameText>
+                <InfoText>
+                    <Text style={{ fontWeight: 'bold' }}>Pressão arterial: </Text>17/6 (Alto)
+                </InfoText>
+                <InfoText>
+                    <Text style={{ fontWeight: 'bold' }}>Batimento: </Text>120 bpm (Anormal)
+                </InfoText>
+                <InfoText>
+                    <Text style={{ fontWeight: 'bold' }}>Estou me sentindo: </Text>Muito mal
+                </InfoText>
+                <InfoText>
+                    <Text style={{ fontWeight: 'bold' }}>Próximo remédio: </Text>Losartana 20mg às 18h
+                </InfoText>
+                <InfoText>
+                    <Text style={{ fontWeight: 'bold' }}>Sintomas: </Text>Sudorese, fraqueza, tontura, confusão mental
+                </InfoText>
+            </AlertContainer>
         </Container>
     );
-}
+};

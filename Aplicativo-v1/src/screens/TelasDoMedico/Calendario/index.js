@@ -1,109 +1,113 @@
-import React, { useState } from 'react';
-import { Modal, View, TouchableOpacity, Text } from 'react-native';
-import { 
+import React, { useState, useEffect } from 'react';
+import {
     Container,
-    AppointmentType,
-    AppointmentTime,
-    PatientName,
-    ProcedureDescription,
     TopSectionContainer,
     AlertTitle,
-    AppointmentContainer,
-    AppointmentRow,
     AddButton,
-    AddButtonText  
+    AddButtonText,
 } from './styles';
-
 import Header from '../../../components/ComponentsMedico/Header';
 import GreetingSection from '../../../components/ComponentsMedico/SaudacaoSection';
+import AppointmentList from './AppointmentList';
+import AddAppointmentModal from './AddAppointmentModal';
 
 export default () => {
+    const [selectedDay, setSelectedDay] = useState(null);
+    const [appointments, setAppointments] = useState([
+        {
+            date: '17/11',
+            time: '08:30',
+            type: 'Consulta Clínica',
+            patient: 'Maria Clara Silva',
+        },
+        {
+            date: '17/11',
+            time: '10:00',
+            type: 'Procedimento',
+            patient: 'João Carlos Andrade',
+        },
+        {
+            date: '17/11',
+            time: '14:00',
+            type: 'Consulta Clínica',
+            patient: 'Ana Beatriz Mendes',
+        },
+        {
+            date: '17/11',
+            time: '16:00',
+            type: 'Consulta Clínica',
+            patient: 'Roberto Ferreira Lima',
+        },
+        {
+            date: '18/11',
+            time: '09:00',
+            type: 'Consulta Clínica',
+            patient: 'Carlos Henrique Souza',
+        },
+        {
+            date: '18/11',
+            time: '11:30',
+            type: 'Procedimento',
+            patient: 'Fernanda Costa Lima',
+        },
+    ]);
     const [modalVisible, setModalVisible] = useState(false);
 
-    // Função para abrir o modal
-    const openModal = () => {
-        setModalVisible(true);
+    // Função para obter a data de hoje no formato dd/MM
+    const getTodayDate = () => {
+        const today = new Date();
+        return `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}`;
     };
 
-    // Função para fechar o modal
-    const closeModal = () => {
+    // Configurar o dia atual como selecionado por padrão
+    useEffect(() => {
+        const todayDate = getTodayDate();
+        setSelectedDay({ day: 'Hoje', date: todayDate });
+    }, []);
+
+    // Filtrar as consultas da data selecionada
+    const filteredAppointments = selectedDay
+        ? appointments
+              .filter((appt) => appt.date === selectedDay.date)
+              .sort((a, b) => a.time.localeCompare(b.time)) // Organiza por horário
+        : [];
+
+    // Função para adicionar uma nova consulta
+    const addNewAppointment = (appointment) => {
+        setAppointments([...appointments, appointment]);
         setModalVisible(false);
-    };
-
-    // Função para lidar com a seleção de um tipo de agendamento
-    const handleScheduleAppointment = (type) => {
-        console.log(`Agendando: ${type}`);
-        closeModal();
-        // Aqui você pode navegar para outra tela ou iniciar o processo de agendamento detalhado
     };
 
     return (
         <Container>
+            {/* Cabeçalho e saudação */}
             <TopSectionContainer>
                 <Header />
-                <GreetingSection />
+                <GreetingSection onDayPress={setSelectedDay} />
             </TopSectionContainer>
 
             {/* Título da seção de agendamentos */}
-            <AlertTitle>Agendamentos</AlertTitle>
+            <AlertTitle>
+                {selectedDay
+                    ? `Agendamentos para ${selectedDay.date}`
+                    : 'Selecione um dia'}
+            </AlertTitle>
 
-            {/* Exemplo de um agendamento de consulta */}
-            <AppointmentContainer>
-                <AppointmentType>Consulta Clínica</AppointmentType>
-                <AppointmentTime>10:00</AppointmentTime>
-                <PatientName>Maria Brito Maciel</PatientName>
-            </AppointmentContainer>
+            {/* Lista de consultas */}
+            <AppointmentList appointments={filteredAppointments} />
 
-            {/* Exemplo de um agendamento de procedimento */}
-            <AppointmentContainer>
-                <AppointmentRow>
-                    <AppointmentType>Procedimentos</AppointmentType>
-                    <ProcedureDescription>Cateterismo cardíaco</ProcedureDescription>
-                </AppointmentRow>
-                <AppointmentTime>13:00</AppointmentTime>
-                <PatientName>João Suricato</PatientName>
-            </AppointmentContainer>
-
-            {/* Botão de adicionar */}
-            <AddButton onPress={openModal}>
+            {/* Botão de adicionar consulta */}
+            <AddButton onPress={() => setModalVisible(true)}>
                 <AddButtonText>+</AddButtonText>
             </AddButton>
 
-            {/* Modal para agendar consulta ou procedimento */}
-            <Modal
+            {/* Modal para adicionar consulta */}
+            <AddAppointmentModal
                 visible={modalVisible}
-                transparent={true}
-                animationType="slide"
-                onRequestClose={closeModal}
-            >
-                <View style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)'
-                }}>
-                    <View style={{
-                        width: '80%',
-                        padding: 20,
-                        backgroundColor: '#FFF',
-                        borderRadius: 10,
-                        alignItems: 'center'
-                    }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>
-                            Escolha o tipo de agendamento
-                        </Text>
-                        <TouchableOpacity onPress={() => handleScheduleAppointment('Consulta Clínica')} style={{ marginBottom: 15 }}>
-                            <Text style={{ fontSize: 16, color: '#25306b' }}>Consulta Clínica</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleScheduleAppointment('Procedimento')} style={{ marginBottom: 15 }}>
-                            <Text style={{ fontSize: 16, color: '#25306b' }}>Procedimento</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={closeModal} style={{ marginTop: 20 }}>
-                            <Text style={{ fontSize: 16, color: '#FF0000' }}>Cancelar</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
+                onClose={() => setModalVisible(false)}
+                onSave={addNewAppointment}
+                selectedDate={selectedDay ? selectedDay.date : ''}
+            />
         </Container>
     );
-}
+};
