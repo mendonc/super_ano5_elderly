@@ -17,8 +17,11 @@ depends_on = None
 
 
 def upgrade() -> None:
-    pass
-
+    op.create_table(
+        'profile_has_skills',
+        sa.Column('profile_table_id', sa.Integer(), sa.ForeignKey('profile_table.id'), primary_key=True),
+        sa.Column('skills_table_id', sa.Integer(), sa.ForeignKey('skills_table.id'), primary_key=True),
+    )
 
 def downgrade() -> None:
     pass

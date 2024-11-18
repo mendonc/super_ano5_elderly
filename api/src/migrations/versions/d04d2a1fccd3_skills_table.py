@@ -15,10 +15,17 @@ down_revision = 'cf000d7349b7'
 branch_labels = None
 depends_on = None
 
+table_name = 'skills_table'
 
 def upgrade() -> None:
-    pass
-
+    op.create_table(
+        table_name,
+        sa.Column('id', sa.Integer(), primary_key=True),
+        sa.Column('nome', sa.String(length=100), nullable=False),  # Nome da funcionalidade
+        sa.Column('descricao', sa.Text()),  # Descrição da funcionalidade
+        sa.Column('ativa', sa.Boolean(), default=True),  # Status se a funcionalidade está ativa ou não
+        sa.Column('categoria', sa.String(length=100)),  # Categoria ou tipo da funcionalidade
+    )
 
 def downgrade() -> None:
     pass

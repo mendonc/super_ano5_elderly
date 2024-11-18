@@ -15,10 +15,14 @@ down_revision = 'bb925b82995b'
 branch_labels = None
 depends_on = None
 
+table_name = 'user_has_illnesses'
 
 def upgrade() -> None:
-    pass
-
+    op.create_table(
+        table_name,
+        sa.Column('usuario_table_id', sa.Integer(), sa.ForeignKey('usuario_table.id'), primary_key=True),
+        sa.Column('illnesses_table_id', sa.Integer(), sa.ForeignKey('illnesses_table.id'), primary_key=True),
+    )
 
 def downgrade() -> None:
     pass

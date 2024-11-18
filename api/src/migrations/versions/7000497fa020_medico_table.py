@@ -20,8 +20,15 @@ table_name = 'medico_table'
 def upgrade() -> None:
     op.create_table(
         table_name,
-        sa.Column('pacientes', sa.String(length=200), nullable=False),
+        sa.Column('id', sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column('nome', sa.String(length=255), nullable=False),
+        sa.Column('crm', sa.String(length=20), unique=True, nullable=False),
+        sa.Column('especialidade', sa.String(length=100), nullable=True),
+        sa.Column('pacientes', sa.String(length=200), nullable=False),           
+        sa.Column('email', sa.String(length=255), nullable=True),
+        sa.Column('data_admissao', sa.Date(), nullable=True),
     )
+    
 
 
 def downgrade() -> None:
