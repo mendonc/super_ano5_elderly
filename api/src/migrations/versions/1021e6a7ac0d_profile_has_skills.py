@@ -15,10 +15,11 @@ down_revision = 'd04d2a1fccd3'
 branch_labels = None
 depends_on = None
 
+table_name = 'profile_has_skills'
 
 def upgrade() -> None:
     op.create_table(
-        'profile_has_skills',
+        table_name,
         sa.Column('profile_table_id', sa.Integer(), sa.ForeignKey('profile_table.id'), primary_key=True),
         sa.Column('skills_table_id', sa.Integer(), sa.ForeignKey('skills_table.id'), primary_key=True),
     )
