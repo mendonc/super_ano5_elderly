@@ -1,8 +1,8 @@
-"""user_has_medicines
+"""user_has_profile
 
-Revision ID: bb925b82995b
-Revises: 1021e6a7ac0d
-Create Date: 2024-11-18 09:59:58.803383
+Revision ID: 22622f5ab175
+Revises: 2d733c47864f
+Create Date: 2024-11-25 14:38:45.911716
 
 """
 from alembic import op
@@ -10,18 +10,18 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'bb925b82995b'
-down_revision = '1021e6a7ac0d'
+revision = '22622f5ab175'
+down_revision = '2d733c47864f'
 branch_labels = None
 depends_on = None
 
-table_name = 'usuario_has_medicines'
+table_name = 'user_has_profile'
 
 def upgrade() -> None:
     op.create_table(
         table_name,
         sa.Column('user_table_id', sa.Integer(), sa.ForeignKey('user_table.id'), primary_key=True),
-        sa.Column('medicines_table_id', sa.Integer(), sa.ForeignKey('medicines_table.id'), primary_key=True),
+        sa.Column('profile_table_id', sa.Integer(), sa.ForeignKey('profile_table.id'), primary_key=True),
     )
 
 def downgrade() -> None:
