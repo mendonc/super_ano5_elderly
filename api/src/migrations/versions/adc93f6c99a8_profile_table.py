@@ -21,8 +21,15 @@ def upgrade() -> None:
     op.create_table(
         table_name,
         sa.Column('id', sa.Integer(), primary_key=True),
-        sa.Column('medicamentos', sa.String(length=200), nullable=False),
-        sa.Column('sintomas', sa.String(length=200), nullable=False),
+        sa.Column('nome', sa.String(length=100), nullable=False),
+        sa.Column('data_nascimento', sa.Date(), nullable=False),
+        sa.Column('sexo', sa.String(length=10)),
+        sa.Column('telefone', sa.String(length=15)),
+        sa.Column('email', sa.String(length=100), unique=True),
+        sa.Column('endereco', sa.String(length=200)),
+        sa.Column('cidade', sa.String(length=100)),
+        sa.Column('estado', sa.String(length=100)),
+        sa.Column('cep', sa.String(length=20)),  
     )
 
 

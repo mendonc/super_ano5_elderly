@@ -1,4 +1,4 @@
-"""user_has_illnesses
+"""profile_has_illnesses
 
 Revision ID: 575feebcbdee
 Revises: bb925b82995b
@@ -15,12 +15,12 @@ down_revision = 'bb925b82995b'
 branch_labels = None
 depends_on = None
 
-table_name = 'user_has_illnesses'
+table_name = 'profile_has_illnesses'
 
 def upgrade() -> None:
     op.create_table(
         table_name,
-        sa.Column('usuario_table_id', sa.Integer(), sa.ForeignKey('usuario_table.id'), primary_key=True),
+        sa.Column('user_table_id', sa.Integer(), sa.ForeignKey('user_table.id'), primary_key=True),
         sa.Column('illnesses_table_id', sa.Integer(), sa.ForeignKey('illnesses_table.id'), primary_key=True),
     )
 
