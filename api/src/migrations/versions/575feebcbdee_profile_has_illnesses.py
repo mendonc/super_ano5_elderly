@@ -20,7 +20,7 @@ table_name = 'profile_has_illnesses'
 def upgrade() -> None:
     op.create_table(
         table_name,
-        sa.Column('user_table_id', sa.Integer(), sa.ForeignKey('user_table.id'), primary_key=True),
+        sa.Column('profile_table_id', sa.Integer(), sa.ForeignKey('profile_table.id'), primary_key=True),
         sa.Column('illnesses_table_id', sa.Integer(), sa.ForeignKey('illnesses_table.id'), primary_key=True),
     )
 
