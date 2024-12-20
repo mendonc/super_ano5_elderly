@@ -1,13 +1,11 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import ProfileSelectionScreen from './src/screens/ProfileSelectionScreen';
 
-import MainStackMedico from './src/stacks/StacksMedico/MainStackMedico';
-
-export default () => {
+export default function App() {
   return (
     <NavigationContainer>
-      <MainStackMedico />
+      <ProfileSelectionScreen />
     </NavigationContainer>
   );
 }
-

@@ -1,12 +1,13 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
 import { Container, ButtonContainer, ButtonText, Divider, Icon } from './styles';
 import Header from '../../../components/ComponentsMedico/Header';
+import { useNavigation } from '@react-navigation/native';
 
 export default function SettingsScreen() {
-    // Função para lidar com cliques nos botões
+    const navigation = useNavigation();
+
     const handlePress = (screenName) => {
-        console.log(`Navegar para: ${screenName}`);
+        navigation.navigate(screenName);
     };
 
     return (
@@ -14,7 +15,7 @@ export default function SettingsScreen() {
             {/* Cabeçalho */}
             <Header />
 
-            {/* Botões abaixo do cabeçalho */}
+            {/* Botões de navegação */}
             <ButtonContainer onPress={() => handlePress('Mensagens')}>
                 <ButtonText>Mensagens</ButtonText>
                 <Icon>{'>'}</Icon>
