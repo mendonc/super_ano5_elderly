@@ -5,6 +5,7 @@ import Header from '../../../components/ComponentsPaciente/Header';
 import Pesquisa from '../../../assets/Pesquisa.svg';
 import MedicamentoList from './MedicamentoList';
 import { initialMedicamentos } from './MedicamentoData';
+import {get_medication} from './aplicativo-v1//backend/routes/medications';
 
 export default () => {
     const [medicamentos, setMedicamentos] = useState(initialMedicamentos);
