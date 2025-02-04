@@ -1,99 +1,70 @@
-import React, { useState } from 'react';
-import { Text, FlatList, TouchableOpacity } from 'react-native';
-import {
-  Container, PrincipalTopic, TipoPerfil, DateContainer, DateText, 
-  TopSectionContainer, HeaderContainer, secondconteiner, Consultconteiner,
-  AlertTitle, Saudacao, MedicamConteiner, MedicTitle, MedicText, MediTitle,
-  AlertContainer, MedicamenConteiner, BemText, MalText, RegularText,
-  NameText, HumorText, HojeEstouText, IconContainer,
-  InfoText, EmojiSelectionContainer,
-  AlertIconContainer, 
-  Exametitle
-} from './styles';
+import React from 'react';
+import { ScrollView, TouchableOpacity, Text } from 'react-native';
+import styled from 'styled-components/native';
 import Header from '../../../components/ComponentsPaciente/Header';
-import Emojisorriso from '../../../assets/Emojisorriso.svg';
+import HumorSelection from '../../../components/ComponentsPaciente/HumorSelection';
 
+// 📌 Estilização
+const Container = styled.SafeAreaView`
+  flex: 1;
+  background-color: #ffffff;
+`;
 
-const emotions = ['😡', '😟', '😐', '🙂', '😄']; // Emojis de emoções
+const SectionTitle = styled.Text`
+  font-size: 22px;
+  font-weight: bold;
+  color: #000; /* Preto para melhor leitura */
+  margin: 20px 20px 10px 20px;
+`;
+
+const HumorContainer = styled.View`
+  background-color: #b0d4e3;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px 20px;
+  align-items: center;
+`;
+
+const NextButton = styled(TouchableOpacity)`
+  background-color: #b0d4e3;
+  padding: 10px;
+  border-radius: 8px;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+const NextButtonText = styled.Text`
+  color: #000;
+  font-size: 20px;
+  font-weight: bold;
+`;
 
 export default () => {
-  const [selectedEmotion, setSelectedEmotion] = useState(3); // Emoção inicial
-
-  const handlePress = (index) => {
-    setSelectedEmotion(index); // Atualiza o emoji selecionado
-  };
-
   return (
     <Container>
       {/* Cabeçalho */}
-      <Header/>
-      <NameText>Bem-estar</NameText>
+      <Header />
 
-      <DateContainer>
-        <HumorText>Humor</HumorText>
-        <HojeEstouText>Hoje estou me sentindo...</HojeEstouText>
+      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+        {/* Seção de Humor */}
+        <SectionTitle>Bem-estar</SectionTitle>
+        <HumorContainer>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000' }}>
+            Hoje estou me sentindo...
+          </Text>
 
-        <IconContainer>
-          <Exametitle numberOfLines={1} ellipsizeMode='tail'>{emotions[selectedEmotion]}</Exametitle>
-        </IconContainer>
-        {/* Barra de Emoções */}
-        <FlatList
-          horizontal
-          data={emotions}
-          keyExtractor={(item, index) => index.toString()}
-          contentContainerStyle={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            flex: 1,
-            justifyContent: 'center',
-            marginVertical:20,
-            
-          }}
-          renderItem={({ item, index }) => (
-            <TouchableOpacity onPress={() => handlePress(index)} style={{ marginHorizontal: 9 }}>
-              <Text style={{
-                fontSize: selectedEmotion === index ? 60 : 50,
-                opacity: selectedEmotion === index ? 1 : 0.5,
-                transform: selectedEmotion === index ? [{ scale: 1.2 }] : [{ scale: 1 }],
-              }}>
-                {item}
-              </Text>
-            </TouchableOpacity>
-          )}
-          showsHorizontalScrollIndicator={false}
-        />
+          <HumorSelection onEmotionSelect={(emotion) => console.log('Humor selecionado:', emotion)} />
 
-        {/* Exibição do Emoji Selecionado */}
-        
-
-        {/* Categorias de Emoções */}
-        <BemText>
-          <Text>Muito Bem</Text>
-        </BemText>
-
-        <RegularText>
-          <Text>Regular</Text>
-        </RegularText>
-
-        <MalText>
-          <Text>Muito Mal</Text>
-        </MalText>
-
+          {/* Botão de Próximo */}
           
-        <TouchableOpacity 
-   onPress={() => setSelectedTab('sono')}
-   style={{
-    backgroundColor:  '#b0d4e3',
-    padding: 10,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 20,
-  }}
->
-  <Text style={{ color: '#000000', fontSize: 20 }}>Próximo > </Text>
-</TouchableOpacity>
-
-      </DateContainer>
+        </HumorContainer>
+        <NextButton 
+          onPress={() => console.log('Ir para próxima tela')}
+          style={{ alignSelf: 'center', width: 150 }}  // 🔹 Adicionando estilos inline
+        >
+            <NextButtonText>Próximo {'>'}</NextButtonText>
+          </NextButton>
+      </ScrollView>
     </Container>
   );
 };
