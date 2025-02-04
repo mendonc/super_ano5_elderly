@@ -1,8 +1,11 @@
+
 import React from 'react';
 import { ScrollView, TouchableOpacity, Text } from 'react-native';
 import styled from 'styled-components/native';
 import Header from '../../../components/ComponentsPaciente/Header';
 import HumorSelection from '../../../components/ComponentsPaciente/HumorSelection';
+import { useNavigation } from '@react-navigation/native';
+
 
 // 📌 Estilização
 const Container = styled.SafeAreaView`
@@ -39,7 +42,12 @@ const NextButtonText = styled.Text`
   font-weight: bold;
 `;
 
-export default () => {
+export default function BemEstarScreen() {
+  const navigation = useNavigation();
+
+  const handleNext = () => {
+      navigation.navigate('Sono'); // 📌 Agora navega corretamente!
+  };
   return (
     <Container>
       {/* Cabeçalho */}
@@ -58,8 +66,7 @@ export default () => {
           {/* Botão de Próximo */}
           
         </HumorContainer>
-        <NextButton 
-          onPress={() => console.log('Ir para próxima tela')}
+        <NextButton onPress={handleNext}
           style={{ alignSelf: 'center', width: 150 }}  // 🔹 Adicionando estilos inline
         >
             <NextButtonText>Próximo {'>'}</NextButtonText>
