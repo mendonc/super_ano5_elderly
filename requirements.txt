@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+firebase-admin
+pydantic
+python-jose
+##passlib
+python-multipart
+argon2-cffi
