@@ -1,154 +1,88 @@
-import React from 'react';
-import { Text, View, StyleSheet, SafeAreaView } from 'react-native';
-import { 
-    Container, TipoPerfil, DateContainer, DateText, 
-    SecondConteiner, ConsultConteiner,
-    AlertTitle, Saudacao, MedicamConteiner, MedicTitle, MedicText, MediTitle,
-    AlertContainer, MedicamenConteiner,
-    NameText,
-    InfoText,
-    Exametitle
-} from './styles';
+import React, { useState } from 'react';
+import { ScrollView } from 'react-native';
+import { Plus } from 'react-native-feather';
 import Header from '../../../components/ComponentsPaciente/Header';
-import { getFormattedDate } from '../../../Utilitarios/DateUtils';
-import AlertaIcon from '../../../assets/Alerta.svg'; // Certifique-se de ajustar o caminho correto do SVG 
-import Swiper from 'react-native-swiper';
-import { initialConsultas } from './ConsultasData';
-import { initialMedicamentos } from '../Tratamento/MedicamentoData';
-import { patientData } from '../../../Utilitarios/PacientMock';
+import SaudacaoSection from '../../../components/ComponentsPaciente/SaudacaoSection';
+import CardItem from '../../../components/ComponentsPaciente/CardItem';
+import { consultasMock, medicamentosMock } from '../../../data/mockData';
+import {
+  Container,
+  SectionTitle,
+  Divider,
+  FloatingButton,
+  ModalContainer,
+  OptionButton,
+  OptionText,
+  TopSectionContainer
+} from './styles';
 
 export default () => {
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  // Filtrar dados com base no dia selecionado
+  const consultasFiltradas = consultasMock.filter(consulta => consulta.date === selectedDay?.date);
+  const medicamentosFiltrados = medicamentosMock.filter(med => med.date === selectedDay?.date);
+
   return (
-
     <Container>
+      {/* Cabeçalho */}
+      <TopSectionContainer>
         <Header />
-        
-        <SecondConteiner>
-            <NameText>{patientData.name} {patientData.secondname}</NameText>
-            <TipoPerfil>Paciente</TipoPerfil>
-        </SecondConteiner>
-        
-        <DateContainer>
-            <Saudacao>Bom dia, {patientData.name}</Saudacao>
-            <DateText>{getFormattedDate()}</DateText>
-        </DateContainer>
-        
-        <ConsultConteiner>
-            <AlertTitle>Consultas e Exames</AlertTitle>
-        </ConsultConteiner>
+        <SaudacaoSection onDayPress={(day) => setSelectedDay(day)} />
+      </TopSectionContainer>
 
-        {/* Swiper para Consultas */}
-        <AlertContainer>
-            <Swiper
-                loop={false} 
-                showsPagination={true} 
-                dotStyle={styles.dot}
-                activeDotStyle={styles.activeDot}
-                showsButtons={true}
-                style={styles.swiper}
-                prevButton={<Text style={styles.arrow}>‹</Text>} // Botão de "voltar"
-                nextButton={<Text style={styles.arrow}>›</Text>} // Botão de "próximo"
-            >
-                {initialConsultas.map((item) => (
-                    <View key={item.id} style={styles.card}>
-                        <Exametitle>{item.specialty} - {item.time}</Exametitle>
-                        <InfoText>
-                            <Text>Médico: {item.doctor}</Text>
-                            <Text>Data: {item.date}</Text>
-                            {item.notes && <Text>Notas: {item.notes}</Text>}
-                        </InfoText>
-                    </View>
-                ))}
-            </Swiper>
-        </AlertContainer>   
+      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+        {/* Batimento Cardíaco */}
+        <SectionTitle>Seu batimento cardíaco:</SectionTitle>
+        <CardItem title="83 bpm" description="(Normal)" />
 
-        <MedicamenConteiner>
-            <MediTitle>Medicamentos</MediTitle>
-        </MedicamenConteiner>
+        {/* Linha Divisória */}
+        <Divider />
 
-        {/* Swiper para Medicamentos */}
-        <MedicamConteiner>
-            <Swiper
-                loop={false} 
-                showsPagination={true} 
-                dotStyle={styles.dot}
-                activeDotStyle={styles.activeDot}
-                showsButtons={true}
-                style={styles.swiper}
-                prevButton={<Text style={styles.arrow}>‹</Text>} // Botão de "voltar"
-                nextButton={<Text style={styles.arrow}>›</Text>} // Botão de "próximo"
-            >
-                {initialMedicamentos.map((item) => (
-                    <View key={item.id} style={styles.card}>
-                        <MedicTitle>{item.name} - {item.dosage}</MedicTitle>
-                        <MedicText>
-                            <Text>Frequência: {item.frequency}</Text>
-                            <Text>Indicação: {item.indication}</Text>
-                            {item.notes && <Text>Notas: {item.notes}</Text>}
-                        </MedicText>
-                    </View>
-                ))}
-            </Swiper>
-        </MedicamConteiner>
+        {/* Seção de Consultas */}
+        <SectionTitle>Consultas/exames</SectionTitle>
+        {consultasFiltradas.length > 0 ? (
+          consultasFiltradas.map((consulta) => (
+            <CardItem key={consulta.id} title={`${consulta.time} - ${consulta.specialty}`} description={`Médico: ${consulta.doctor}`} />
+          ))
+        ) : (
+          <CardItem title="Sem consultas para hoje" description="" />
+        )}
+
+        {/* Linha Divisória */}
+        <Divider />
+
+        {/* Seção de Medicamentos */}
+        <SectionTitle>Medicamentos</SectionTitle>
+        {medicamentosFiltrados.length > 0 ? (
+          medicamentosFiltrados.map((med) => (
+            <CardItem key={med.id} title={`${med.time} - ${med.name}`} description={`${med.dosage}, ${med.frequency}`} />
+          ))
+        ) : (
+          <CardItem title="Sem medicamentos para hoje" description="" />
+        )}
+      </ScrollView>
+
+      {/* Botão Flutuante */}
+      <FloatingButton onPress={() => setShowModal(true)}>
+        <Plus color="white" width={34} height={34} />
+      </FloatingButton>
+
+      {/* Modal de Opções */}
+      {showModal && (
+        <ModalContainer>
+          <OptionButton onPress={() => console.log("Adicionar Consulta")}>
+            <OptionText>Adicionar Consulta</OptionText>
+          </OptionButton>
+          <OptionButton onPress={() => console.log("Adicionar Medicamento")}>
+            <OptionText>Adicionar Medicamento</OptionText>
+          </OptionButton>
+          <OptionButton onPress={() => setShowModal(false)}>
+            <OptionText>Cancelar</OptionText>
+          </OptionButton>
+        </ModalContainer>
+      )}
     </Container>
-
   );
 };
-
-
-const styles = StyleSheet.create({
-  swiper: {
-    marginTop: 10,
-    marginBottom: 100,
-    height: 90,
-  },
-  arrow: {
-    fontSize: 50, // Tamanho da seta
-    color: '#000', // Cor da seta
-    marginTop: 30, // Aumenta a distância entre a seta e o conteúdo
-    justifyContent: 'center', 
-  },
-  card: {
-    padding: 26,
-    marginVertical: 50,
-    backgroundColor: '#dbf0f7',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#cce7ef',
-    justifyContent: 'center', 
-    marginHorizontal: 1, // Espaçamento horizontal entre os cartões
-  },
-  dot: {
-    backgroundColor: 'rgba(0,0,0,.2)',
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    margin: 3,
-  },
-  activeDot: {
-    backgroundColor: '#000000',
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    margin: 3,
-  },
-  // Adicione estilos para os itens de consulta e medicamento
-  Exametitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  MedicTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  MedicText: {
-    fontSize: 14,
-    color: '#666',
-  },
-  InfoText: {
-    fontSize: 14,
-    color: '#666',
-  },
-});

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 
 // Função para obter a saudação com base no horário
 const getGreeting = () => {
@@ -10,7 +10,7 @@ const getGreeting = () => {
     return 'Boa Noite';
 };
 
-// Função para obter os próximos 5 dias com base no índice inicial
+// Função para obter os próximos 5 dias
 const getDaysFromIndex = (startIndex) => {
     const today = new Date();
     const days = [];
@@ -18,7 +18,7 @@ const getDaysFromIndex = (startIndex) => {
         const date = new Date();
         date.setDate(today.getDate() + i);
         days.push({
-            day: ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'][(date.getDay() + 6) % 7],
+            day: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'][(date.getDay() + 6) % 7],
             date: `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}`,
         });
     }
@@ -30,6 +30,7 @@ const GreetingContainer = styled.View`
   background-color: #b0d4e3;
   padding: 15px 20px 10px 20px;
   align-items: center;
+  border-radius: 10px;
 `;
 
 const GreetingText = styled.Text`
@@ -49,7 +50,7 @@ const ArrowButton = styled.TouchableOpacity`
 `;
 
 const ArrowText = styled.Text`
-  font-size: 18px;
+  font-size: 22px;
   color: #25306b;
   font-weight: bold;
 `;
@@ -73,7 +74,7 @@ const DateText = styled.Text`
   font-size: 12px;
 `;
 
-export default function GreetingSection({ onDayPress }) {
+export default function SaudacaoSection({ onDayPress }) {
     const [startIndex, setStartIndex] = useState(0);
     const [selectedDate, setSelectedDate] = useState(null);
     const [greeting, setGreeting] = useState(getGreeting());
@@ -83,7 +84,7 @@ export default function GreetingSection({ onDayPress }) {
         const interval = setInterval(() => {
             setGreeting(getGreeting());
         }, 1000 * 60); // Atualiza a cada minuto
-        return () => clearInterval(interval); // Limpa o intervalo ao desmontar o componente
+        return () => clearInterval(interval);
     }, []);
 
     // Obter os dias com base no índice inicial
@@ -98,13 +99,13 @@ export default function GreetingSection({ onDayPress }) {
 
     const handleDayPress = (day) => {
         setSelectedDate(day.date);
-        onDayPress(day);
+        onDayPress(day); // Passa o dia selecionado para a tela principal
     };
 
     return (
         <GreetingContainer>
-            {/* Saudação dinâmica com o nome do médico */}
-            <GreetingText>{greeting}, Dr. José!</GreetingText>
+            {/* Saudação dinâmica */}
+            <GreetingText>{greeting}, Usuário!</GreetingText>
 
             {/* Navegação entre os dias */}
             <DaysContainer>

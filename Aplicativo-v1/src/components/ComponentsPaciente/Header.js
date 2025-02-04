@@ -5,8 +5,8 @@ import styled from 'styled-components/native';
 import PacienteID from '../../assets/PacienteID.svg';
 
 const HeaderContainer = styled.View`
-  background-color: #25306b; /* Verde escuro */
-  padding: 55px;
+  background-color: #25306b; 
+  padding: 20px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -14,10 +14,7 @@ const HeaderContainer = styled.View`
   border-bottom-right-radius: 20px;
 `;
 
-const IconContainer = styled.View`
-  top: 0px;
-  right: 40px;
-`;
+const IconContainer = styled.View``;
 
 const DateContainer = styled.View`
   flex: 1;
@@ -25,7 +22,7 @@ const DateContainer = styled.View`
 `;
 
 const DateText = styled.Text`
-  color:rgb(0, 0, 0);
+  color: #ffffff;
   font-size: 18px;
   font-weight: 300;
   font-family: 'sans-serif-light'; 
