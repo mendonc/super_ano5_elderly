@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
-import { Button, TextInput, View, StyleSheet, Modal, TouchableOpacity, Text } from 'react-native';
-import { Container, SectionTitleContainer, SectionTitle, IconContainer, NameText, ListMedicConteiner } from './styles';
+import React, { useState } from 'react'; 
+import { Modal, Text, TextInput, TouchableOpacity, View, ScrollView, SafeAreaView } from 'react-native';
+import { Container, SectionTitle, AddButton, AddButtonText, ListContainer, ModalContainer, ModalContent, ModalButton, ModalButtonText, Input } from './styles';
 import Header from '../../../components/ComponentsPaciente/Header';
-import Pesquisa from '../../../assets/Pesquisa.svg';
 import MedicamentoList from './MedicamentoList';
 import { initialMedicamentos } from './MedicamentoData';
 
 export default () => {
     const [medicamentos, setMedicamentos] = useState(initialMedicamentos);
-    const [filteredMedicamentos, setFilteredMedicamentos] = useState(initialMedicamentos);
-    const [searchText, setSearchText] = useState('');
-    const [isSearching, setIsSearching] = useState(false);
-    const [isModalVisible, setIsModalVisible] = useState(false);  // Controle do modal
-    const [isEditMode, setIsEditMode] = useState(false); // Controle para edição
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
     const [currentMedicamento, setCurrentMedicamento] = useState({
         id: '',
         name: '',
@@ -22,238 +18,79 @@ export default () => {
         indication: ''
     });
 
-    const handleSearch = (text) => {
-        setSearchText(text);
-        const filtered = medicamentos.filter((medicamento) =>
-            medicamento.name.toLowerCase().includes(text.toLowerCase())
-        );
-        setFilteredMedicamentos(filtered);
-    };
-
     const handleAddMedicamento = () => {
-        const newMedicamentoData = {
+        const newMedicamento = {
             id: (medicamentos.length + 1).toString(),
             name: currentMedicamento.name || 'Novo Medicamento',
-            description: currentMedicamento.description || 'Descrição do novo medicamento',
+            description: currentMedicamento.description || 'Descrição...',
             dosage: currentMedicamento.dosage || '50mg',
             frequency: currentMedicamento.frequency || '1x/dia',
-            indication: currentMedicamento.indication || 'Indicação exemplo',
+            indication: currentMedicamento.indication || 'Indicação padrão',
         };
 
-        setMedicamentos((prevMedicamentos) => [...prevMedicamentos, newMedicamentoData]);
-        setFilteredMedicamentos((prevFiltered) => [...prevFiltered, newMedicamentoData]);
-
-        setIsModalVisible(false);
-        setCurrentMedicamento({
-            id: '',
-            name: '',
-            description: '',
-            dosage: '',
-            frequency: '',
-            indication: ''
-        });
+        setMedicamentos([...medicamentos, newMedicamento]);
+        closeModal();
     };
 
     const handleEditMedicamento = (medicamento) => {
-        setIsEditMode(true);  // Ativa o modo de edição
-        setCurrentMedicamento(medicamento);  // Carrega os dados do medicamento selecionado
-        setIsModalVisible(true);  // Abre o modal
+        setIsEditMode(true);
+        setCurrentMedicamento(medicamento);
+        setIsModalVisible(true);
     };
 
     const handleSaveMedicamento = () => {
-        setMedicamentos((prevMedicamentos) =>
-            prevMedicamentos.map((medicamento) =>
-                medicamento.id === currentMedicamento.id ? currentMedicamento : medicamento
-            )
+        setMedicamentos((prev) =>
+            prev.map((med) => (med.id === currentMedicamento.id ? currentMedicamento : med))
         );
-        setFilteredMedicamentos((prevFiltered) =>
-            prevFiltered.map((medicamento) =>
-                medicamento.id === currentMedicamento.id ? currentMedicamento : medicamento
-            )
-        );
+        closeModal();
+    };
 
+    const closeModal = () => {
         setIsModalVisible(false);
         setIsEditMode(false);
-        setCurrentMedicamento({
-            id: '',
-            name: '',
-            description: '',
-            dosage: '',
-            frequency: '',
-            indication: ''
-        });
+        setCurrentMedicamento({ id: '', name: '', description: '', dosage: '', frequency: '', indication: '' });
     };
 
     return (
         <Container>
             <Header />
-            <NameText>Tratamento</NameText>
-            <SectionTitleContainer>
-                <SectionTitle>Medicamentos</SectionTitle>
-                <IconContainer>
-                    <Pesquisa
-                        width={24}
-                        height={24}
-                        fill="#000000"
-                        onPress={() => setIsSearching(!isSearching)}
-                    />
-                </IconContainer>
-            </SectionTitleContainer>
+            <SectionTitle>Medicamentos atuais</SectionTitle>
 
-            {isSearching && (
-                <TextInput
-                    style={{
-                        margin: 10,
-                        backgroundColor: 'white',
-                        width: 350,
-                        top: -33,
-                        fontSize: 25,
-                        padding: 11,
-                        borderWidth: 13,
-                        borderColor: '#ffffff',
-                        marginBottom: 1,
-                        borderRadius: 50,
-                    }}
-                    placeholder="Digite o nome do medicamento..."
-                    placeholderTextColor="#555"
-                    value={searchText}
-                    onChangeText={(text) => handleSearch(text)}
-                />
-            )}
+            {/* Botão de adicionar medicamento */}
+            <AddButton onPress={() => setIsModalVisible(true)}>
+                <AddButtonText>+ Adicionar Medicamento</AddButtonText>
+            </AddButton>
 
-            <ListMedicConteiner>
-                <View style={styles.buttonContainer}>
-                    <Button title="Adicionar Medicamento" onPress={() => setIsModalVisible(true)} />
-                </View>
-
-                <MedicamentoList
-                    medicamentos={filteredMedicamentos.length > 0 ? filteredMedicamentos : medicamentos}
-                    onEdit={handleEditMedicamento}  // Passando a função de editar
-                />
-            </ListMedicConteiner>
+            {/* Lista de Medicamentos em formato vertical */}
+            <SafeAreaView style={{ flex: 1, paddingBottom: 1}}>
+                <MedicamentoList medicamentos={medicamentos} onEdit={handleEditMedicamento} />
+            </SafeAreaView>
 
             {/* Modal para Adicionar/Editar Medicamento */}
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={isModalVisible}
-                onRequestClose={() => setIsModalVisible(false)}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>{isEditMode ? 'Editar Medicamento' : 'Adicionar Medicamento'}</Text>
-                        
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Nome"
-                            value={currentMedicamento.name}
-                            onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, name: text })}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Descrição"
-                            value={currentMedicamento.description}
-                            onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, description: text })}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Dosagem"
-                            value={currentMedicamento.dosage}
-                            onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, dosage: text })}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Frequência"
-                            value={currentMedicamento.frequency}
-                            onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, frequency: text })}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Indicação"
-                            value={currentMedicamento.indication}
-                            onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, indication: text })}
-                        />
+            <Modal animationType="slide" transparent visible={isModalVisible}>
+                <ModalContainer>
+                    <ModalContent>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                            {isEditMode ? 'Editar Medicamento' : 'Adicionar Medicamento'}
+                        </Text>
 
-                        <View style={styles.modalButtons}>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={isEditMode ? handleSaveMedicamento : handleAddMedicamento}
-                            >
-                                <Text style={styles.buttonText}>{isEditMode ? 'Salvar Alterações' : 'Adicionar'}</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={() => {
-                                    setIsModalVisible(false);
-                                    setIsEditMode(false);
-                                    setCurrentMedicamento({
-                                        id: '',
-                                        name: '',
-                                        description: '',
-                                        dosage: '',
-                                        frequency: '',
-                                        indication: ''
-                                    });
-                                }}
-                            >
-                                <Text style={styles.buttonText}>Cancelar</Text>
-                            </TouchableOpacity>
+                        <Input placeholder="Nome" value={currentMedicamento.name} onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, name: text })} />
+                        <Input placeholder="Descrição" value={currentMedicamento.description} onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, description: text })} />
+                        <Input placeholder="Dosagem" value={currentMedicamento.dosage} onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, dosage: text })} />
+                        <Input placeholder="Frequência" value={currentMedicamento.frequency} onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, frequency: text })} />
+                        <Input placeholder="Indicação" value={currentMedicamento.indication} onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, indication: text })} />
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <ModalButton onPress={isEditMode ? handleSaveMedicamento : handleAddMedicamento}>
+                                <ModalButtonText>{isEditMode ? 'Salvar' : 'Adicionar'}</ModalButtonText>
+                            </ModalButton>
+                            <ModalButton onPress={closeModal} style={{ backgroundColor: '#FF3B30' }}>
+                                <ModalButtonText>Cancelar</ModalButtonText>
+                            </ModalButton>
                         </View>
-                    </View>
-                </View>
+                    </ModalContent>
+                </ModalContainer>
             </Modal>
         </Container>
     );
 };
-
-const styles = StyleSheet.create({
-    scrollViewContainer: {
-        flexGrow: 1,
-        paddingBottom: 20,
-    },
-    buttonContainer: {
-        marginTop: 20,
-        padding: 10,
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        backgroundColor: 'white',
-        padding: 20,
-        width: 300,
-        borderRadius: 10,
-        elevation: 5,
-    },
-    modalTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    input: {
-        height: 40,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        borderRadius: 5,
-        marginBottom: 10,
-        paddingLeft: 8,
-    },
-    modalButtons: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: 10,
-    },
-    button: {
-        backgroundColor: '#007aff',
-        padding: 10,
-        borderRadius: 5,
-    },
-    buttonText: {
-        color: 'white',
-        fontWeight: 'bold',
-    },
-});
-
