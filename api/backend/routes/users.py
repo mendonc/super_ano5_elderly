@@ -20,7 +20,9 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         raise HTTPException(status_code=401, detail="Credenciais inválidas")
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    token = create_access_token({"sub": user.user_id, "role": user.role}, access_token_expires)
+    token = create_access_token({"sub": user["user_id"], "role": user["role"]}, access_token_expires)
+
+    #token = create_access_token({"sub": user.user_id, "role": user.role}, access_token_expires)
     
     return {"access_token": token, "token_type": "bearer"}
 

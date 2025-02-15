@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, FlatList } from 'react-native';
 
-const MedicamentoList = ({ medicamentos, onEdit }) => {
+const MedicamentoList = ({ medicamentos }) => {
   if (!medicamentos || medicamentos.length === 0) {
     return (
       <View style={styles.emptyContainer}>
@@ -13,7 +13,7 @@ const MedicamentoList = ({ medicamentos, onEdit }) => {
   return (
     <FlatList
       data={medicamentos}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item, index) => (item.id ? item.id.toString() : index.toString())}
       renderItem={({ item }) => (
         <View style={styles.card}>
           <Text style={styles.name}>{item.name}</Text>
@@ -22,11 +22,6 @@ const MedicamentoList = ({ medicamentos, onEdit }) => {
           </Text>
           <Text style={styles.indication}>{item.indication}</Text>
           {item.notes && <Text style={styles.notes}>Nota: {item.notes}</Text>}
-
-          {/* Botão de Editar */}
-          <TouchableOpacity style={styles.editButton} onPress={() => onEdit(item)}>
-            <Text style={styles.editButtonText}>Editar</Text>
-          </TouchableOpacity>
         </View>
       )}
     />
@@ -74,17 +69,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#777',
     fontStyle: 'italic',
-  },
-  editButton: {
-    backgroundColor: '#007aff',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  editButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
   },
 });
 

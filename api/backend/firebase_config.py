@@ -10,3 +10,4 @@ firebase_admin.initialize_app(cred)
 
 # Instância do Firestore
 db = firestore.client()
+

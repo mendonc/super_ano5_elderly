@@ -15,6 +15,8 @@ from backend.database import get_user_by_username, get_user_by_id  # Supondo que
 from argon2 import PasswordHasher
 from fastapi.security import OAuth2PasswordBearer
 
+from backend.firebase_config import db 
+
 # Configurações do JWT
 SECRET_KEY = "sua-chave-secreta"
 ALGORITHM = "HS256"
@@ -49,7 +51,6 @@ def authenticate_user(username: str, password: str):
         if verify_password(password, user["password"]):  # Compara senha digitada com hash
             return user
     return None
-    
 
 def create_access_token(data: dict, expires_delta: timedelta = None):
     """Gera um token JWT válido"""
@@ -67,7 +68,17 @@ def decode_access_token(token: str):
         return payload
     except JWTError:
         return None
-
-#PROBLEMAS?
-
     
+
+# Exemplo de uso da função authenticate_user
+def example_usage():
+    user = authenticate_user("example_username", "example_password")
+    if user:
+        print(f"User ID: {user.get('user_id')}")
+    else:
+        print("Authentication failed")
+    
+
+# Chamada para testar a função example_usage
+if __name__ == "__main__":
+    example_usage()
