@@ -30,14 +30,18 @@ async def create_medication(medication_data: MedicationSchema):
 
     return {"message": "Medicamento cadastrado com sucesso", "id": new_medication_ref.id}
 
-@router.get("/{user_id}")
+
+@router.get("/medications/{user_id}")
 def get_medications(user_id: str):
-    """Lista os medicamentos de um paciente."""
+    """Lista os medicamentos de um paciente com os IDs incluídos."""
     meds_ref = db.collection("medications").where("user_id", "==", user_id).stream()
-    medications = [med.to_dict() for med in meds_ref]
+    medications = [{"id": med.id, **med.to_dict()} for med in meds_ref]  # Adiciona o ID ao JSON
+
     if not medications:
         raise HTTPException(status_code=404, detail="Nenhum medicamento encontrado.")
+
     return medications
+
 
 # Atualizar medicamento
 @router.put("/medications/{medication_id}")

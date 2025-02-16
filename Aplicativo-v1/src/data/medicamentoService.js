@@ -3,7 +3,7 @@ import api from './api';
 // Buscar todos os medicamentos de um paciente específico
 export const getMedicamentos = async (userId) => {
   try {
-    const response = await api.get(`/medications/${userId}`);
+    const response = await api.get(`/medications/medications/${userId}`);
     console.log('📥 Dados recebidos do backend:', response.data);
     return response.data;
   } catch (error) {
@@ -53,7 +53,7 @@ export const deleteMedicamento = async (medicationId) => {
 
   try {
     console.log(`🗑️ Deletando medicamento com ID: ${medicationId}`);
-    await api.delete(`/medications/medications/${medicationId}`); // Ajustado o endpoint
+    await api.delete(`/medications/${medicationId}`); // Ajustado o endpoint
     console.log("✅ Medicamento deletado com sucesso!");
     return true;
   } catch (error) {

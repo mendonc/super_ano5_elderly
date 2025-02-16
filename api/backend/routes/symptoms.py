@@ -39,15 +39,17 @@ async def create_symptom(symptom: SymptomSchema):
 
     return {"message": "Sintoma adicionado com sucesso", "id": new_symptom_ref.id}
 
-
-@router.get("/{user_id}")
+@router.get("/symptoms/{user_id}")
 def get_symptoms(user_id: str):
-    """Lista os sintomas de um paciente."""
+    """Lista os sintomas de um paciente com os IDs incluídos."""
     symptoms_ref = db.collection("symptoms").where("user_id", "==", user_id).stream()
-    symptoms = [symptom.to_dict() for symptom in symptoms_ref]
+    symptoms = [{"id": symptom.id, **symptom.to_dict()} for symptom in symptoms_ref]  # Adiciona o ID ao JSON
+
     if not symptoms:
         raise HTTPException(status_code=404, detail="Nenhum sintoma encontrado.")
+
     return symptoms
+
 
 # Atualizar sintoma
 @router.put("/symptoms/{symptom_id}")
