@@ -5,7 +5,6 @@ import Header from '../../../components/ComponentsPaciente/Header';
 import MedicamentoList from './MedicamentoList';
 import { getMedicamentos, addMedicamento, updateMedicamento, deleteMedicamento } from '../../../data/medicamentoService';
 
-
 export default () => {
     const [medicamentos, setMedicamentos] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -17,49 +16,43 @@ export default () => {
         frequency: '',
     });
 
-    // Simulação de usuário logado (depois pode substituir pelo ID real do usuário)
     const userId = "99977755533";
 
     // 🔹 Carregar medicamentos ao iniciar a tela
     useEffect(() => {
-        const fetchMedicamentos = async () => {
-            const data = await getMedicamentos(userId);
-            setMedicamentos(data);
-        };
-
-        fetchMedicamentos();
+        carregarMedicamentos();
     }, []);
+
+    const carregarMedicamentos = async () => {
+        const data = await getMedicamentos(userId);
+        setMedicamentos(data);
+    };
 
     const handleEditMedicamento = (medicamento) => {
         setIsEditMode(true);
-        setCurrentMedicamento(medicamento); // Preenche o modal com os dados atuais
+        setCurrentMedicamento(medicamento);
         setIsModalVisible(true);
     };
 
-    // 🔹 Adicionar novo medicamento
+    // 🔹 Adicionar novo medicamento e atualizar a lista
     const handleAddMedicamento = async () => {
         const newMedicamento = {
             ...currentMedicamento,
             user_id: userId,
         };
-    
+
         const response = await addMedicamento(newMedicamento);
         if (response) {
-            // 🔹 Buscar os medicamentos novamente após adicionar
-            const updatedMedicamentos = await getMedicamentos(userId);
-            setMedicamentos(updatedMedicamentos); 
+            await carregarMedicamentos(); // 🔄 Atualiza a lista
             closeModal();
         }
     };
-    
 
     // 🔹 Atualizar medicamento
     const handleSaveMedicamento = async () => {
         const response = await updateMedicamento(currentMedicamento.id, currentMedicamento);
         if (response) {
-            setMedicamentos((prev) =>
-                prev.map((med) => (med.id === currentMedicamento.id ? response : med))
-            );
+            await carregarMedicamentos(); // 🔄 Atualiza a lista
             closeModal();
         }
     };
@@ -68,7 +61,7 @@ export default () => {
     const handleDeleteMedicamento = async (id) => {
         const success = await deleteMedicamento(id);
         if (success) {
-            setMedicamentos(medicamentos.filter((med) => med.id !== id));
+            await carregarMedicamentos(); // 🔄 Atualiza a lista
         }
     };
 
@@ -89,7 +82,11 @@ export default () => {
             </AddButton>
 
             <SafeAreaView style={{ flex: 1, paddingBottom: 1 }}>
-                <MedicamentoList medicamentos={medicamentos} onEdit={setCurrentMedicamento} onDelete={handleDeleteMedicamento} />
+                <MedicamentoList 
+                    medicamentos={medicamentos} 
+                    onEdit={handleEditMedicamento} 
+                    onDelete={handleDeleteMedicamento} 
+                />
             </SafeAreaView>
 
             <Modal animationType="slide" transparent visible={isModalVisible}>
