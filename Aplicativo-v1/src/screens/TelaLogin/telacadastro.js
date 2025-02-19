@@ -2,19 +2,28 @@ import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import LogoPrincipal from "../../assets/LogoPrincipal.svg";
-import CadastroScreen from "../../screens/TelaLogin/telacadastro"
+import { login } from "../../data/LoginService"; // Importa a função de login
 
-export default function LoginScreen() {
+export default function CadastroScreen() {
   const [name, setName] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
-  const handleLogin = () => {
-    if (!name || !password) {
+  const handleLogin = async () => {
+    if (!name || !cpf || !email || !password) {
       Alert.alert("Erro", "Todos os campos são obrigatórios");
       return;
     }
-    navigation.navigate("ProfileSelectionScreen");
+
+    const response = await login(name, cpf, email, password);
+    if (response) {
+      Alert.alert("Sucesso", "Login realizado com sucesso!");
+      navigation.navigate("ProfileSelectionScreen");
+    } else {
+      Alert.alert("Erro", "Falha no login. Verifique suas credenciais.");
+    }
   };
 
   return (
@@ -22,32 +31,15 @@ export default function LoginScreen() {
       <View style={styles.logoContainer}>
         <LogoPrincipal width={400} height={400} />
       </View>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Cadastro</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Nome"
-        placeholderTextColor="#888"
-        value={name}
-        onChangeText={setName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Senha"
-        placeholderTextColor="#888"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+      <TextInput style={styles.input} placeholder="Nome" placeholderTextColor="#888" value={name} onChangeText={setName} />
+      <TextInput style={styles.input} placeholder="CPF" placeholderTextColor="#888" value={cpf} onChangeText={setCpf} keyboardType="numeric" />
+      <TextInput style={styles.input} placeholder="E-mail" placeholderTextColor="#888" value={email} onChangeText={setEmail} keyboardType="email-address" />
+      <TextInput style={styles.input} placeholder="Senha" placeholderTextColor="#888" value={password} onChangeText={setPassword} secureTextEntry />
 
-      {/* Botão de login */}
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Entrar</Text>
-      </TouchableOpacity>
-
-      {/* Botão "Não possuo cadastro" */}
-      <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate("CadastroScreen")}>
-        <Text style={styles.linkText}>Não possuo cadastro</Text>
       </TouchableOpacity>
     </View>
   );
@@ -87,15 +79,6 @@ const styles = StyleSheet.create({
     color: "#3073c5",
     fontSize: 16,
     fontWeight: "bold",
-  },
-  linkButton: {
-    marginTop: 10,
-    alignItems: "center",
-  },
-  linkText: {
-    color: "#3073c5",
-    fontSize: 14,
-    textDecorationLine: "underline",
   },
   logoContainer: {
     padding: 1,
