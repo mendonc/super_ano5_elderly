@@ -1,20 +1,36 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import LogoPrincipal from "../../assets/LogoPrincipal.svg";
-import CadastroScreen from "../../screens/TelaLogin/telacadastro"
+import { loginUser } from "../../data/LoginService";  // Importe a função de login do backend
 
 export default function LoginScreen() {
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);  // Estado para o carregamento
   const navigation = useNavigation();
 
-  const handleLogin = () => {
-    if (!name || !password) {
+  const handleLogin = async () => {
+    if (!username || !password) {
       Alert.alert("Erro", "Todos os campos são obrigatórios");
       return;
     }
-    navigation.navigate("ProfileSelectionScreen");
+
+    setLoading(true);  // Ativa o carregamento
+
+    // Realiza o login na API
+    const result = await loginUser(username, password);
+
+    setLoading(false);  // Desativa o carregamento
+
+    if (result) {
+      // Se o login for bem-sucedido
+      Alert.alert("Sucesso", "Login realizado com sucesso!");
+      navigation.navigate("ProfileSelectionScreen");
+    } else {
+      // Se houver um erro no login
+      Alert.alert("Erro", "Credenciais inválidas ou erro ao fazer login.");
+    }
   };
 
   return (
@@ -26,10 +42,12 @@ export default function LoginScreen() {
 
       <TextInput
         style={styles.input}
-        placeholder="Nome"
+        placeholder="CPF"
         placeholderTextColor="#888"
-        value={name}
-        onChangeText={setName}
+        value={username}
+        onChangeText={setUsername}
+        keyboardType="default"
+        autoCapitalize="none"
       />
       <TextInput
         style={styles.input}
@@ -40,12 +58,14 @@ export default function LoginScreen() {
         secureTextEntry
       />
 
-      {/* Botão de login */}
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Entrar</Text>
+      <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
+        {loading ? (
+          <ActivityIndicator size="small" color="#3073c5" />  // Indicador de carregamento
+        ) : (
+          <Text style={styles.buttonText}>Entrar</Text>
+        )}
       </TouchableOpacity>
 
-      {/* Botão "Não possuo cadastro" */}
       <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate("CadastroScreen")}>
         <Text style={styles.linkText}>Não possuo cadastro</Text>
       </TouchableOpacity>
@@ -103,5 +123,7 @@ const styles = StyleSheet.create({
     marginHorizontal: -50,
     marginVertical: -170,
     position: "relative",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

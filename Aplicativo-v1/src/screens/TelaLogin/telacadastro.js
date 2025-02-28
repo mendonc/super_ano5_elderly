@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import LogoPrincipal from "../../assets/LogoPrincipal.svg";
-import { login } from "../../data/LoginService"; // Importa a função de login
 
 export default function CadastroScreen() {
   const [name, setName] = useState("");
@@ -11,19 +10,14 @@ export default function CadastroScreen() {
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
-  const handleLogin = async () => {
+  const handleCadastro = () => {
     if (!name || !cpf || !email || !password) {
       Alert.alert("Erro", "Todos os campos são obrigatórios");
       return;
     }
 
-    const response = await login(name, cpf, email, password);
-    if (response) {
-      Alert.alert("Sucesso", "Login realizado com sucesso!");
-      navigation.navigate("ProfileSelectionScreen");
-    } else {
-      Alert.alert("Erro", "Falha no login. Verifique suas credenciais.");
-    }
+    Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
+    navigation.navigate("ProfileSelectionScreen");
   };
 
   return (
@@ -38,8 +32,8 @@ export default function CadastroScreen() {
       <TextInput style={styles.input} placeholder="E-mail" placeholderTextColor="#888" value={email} onChangeText={setEmail} keyboardType="email-address" />
       <TextInput style={styles.input} placeholder="Senha" placeholderTextColor="#888" value={password} onChangeText={setPassword} secureTextEntry />
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Entrar</Text>
+      <TouchableOpacity style={styles.button} onPress={handleCadastro}>
+        <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>
     </View>
   );
@@ -86,5 +80,7 @@ const styles = StyleSheet.create({
     marginHorizontal: -50,
     marginVertical: -170,
     position: "relative",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

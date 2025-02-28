@@ -10,6 +10,11 @@ from backend.auth import authenticate_user, create_access_token, ACCESS_TOKEN_EX
 
 from backend.schemas import UserCreateSchema, hash_password 
 
+from fastapi.responses import JSONResponse
+
+#from utils.access_control import hash_password  # Supondo que você tenha uma função para criptografar senhas
+from backend.utils.security import hash_password  # Agora estamos usando o Argon2
+
 router = APIRouter()
 
 @router.post("/token")
@@ -26,22 +31,48 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     
     return {"access_token": token, "token_type": "bearer"}
 
+
 @router.post("/")
 def create_user(user_data: UserCreateSchema):
     """Cria um novo usuário com senha criptografada"""
+    user_ref = db.collection("users").document(user_data.cpf)  # CPF como ID do documento
+    existing_user = user_ref.get()
+
+    if existing_user.exists:
+        return JSONResponse(content={"error": "Usuário com este CPF já está cadastrado!"}, status_code=400)
+
     hashed_password = hash_password(user_data.password)  # Criptografa a senha
 
-    user_ref = db.collection("users").document()
     user_ref.set({
-        "user_id": user_ref.id,
+        "user_id": user_data.cpf,
         "username": user_data.username,
-        "password": hashed_password,  # Salva a senha criptografada
+        "password": hashed_password,
         "cpf": user_data.cpf,
         "role": user_data.role,
-        "linked_user_id": user_data.linked_user_id or None  # Certifica-se de que é None se não for enviado
+        "linked_user_id": user_data.linked_user_id or None
     })
 
     return {"message": "Usuário criado com sucesso!"}
+
+
+#{    @router.post("/")
+    def create_user(user_data: UserCreateSchema):
+        """Cria um novo usuário com senha criptografada"""
+        hashed_password = hash_password(user_data.password)  # Criptografa a senha
+
+        
+
+        user_ref = db.collection("users").document(user_data.cpf)  # Define o CPF como ID do documento
+        user_ref.set({
+            "user_id": user_data.cpf,  # O CPF será o user_id
+            "username": user_data.username,
+            "password": hashed_password,  # Salva a senha criptografada
+            "cpf": user_data.cpf,
+            "role": user_data.role,
+            "linked_user_id": user_data.linked_user_id or None  # Certifica-se de que é None se não for enviado
+        })
+
+        return {"message": "Usuário criado com sucesso!"}
 
 
 @router.get("/{cpf}")
@@ -53,21 +84,39 @@ def get_user(cpf: str):
     return user_ref.to_dict()
 
 # Atualizar usuário
-########################################################
 
 @router.put("/{user_id}")
 async def update_user(user_id: str, user: UserSchema):
+    """Atualiza os dados do usuário e modifica o CPF caso necessário, mantendo a senha criptografada"""
     user_ref = db.collection("users").document(user_id)
     user_data = user_ref.get()
-    
+
     if not user_data.exists:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
 
-    # Verifica se o CPF foi alterado
+    # Pega os dados antigos do usuário
+    user_db = user_data.to_dict()
+
+    # Mantém a senha antiga caso o usuário não envie um novo password
+    password = user_db.get("password")  # Senha existente criptografada
+    if hasattr(user, "password") and user.password:  # Se um novo password for enviado
+        password = hash_password(user.password)  # Criptografa a nova senha
+
+    # Se o CPF foi alterado, cria um novo documento e exclui o antigo
     if user.cpf != user_id:
-        # Cria um novo documento com o novo CPF como ID
         new_user_ref = db.collection("users").document(user.cpf)
-        new_user_ref.set(user.dict())
+        if new_user_ref.get().exists:
+            raise HTTPException(status_code=400, detail="CPF já cadastrado para outro usuário")
+
+        # Cria um novo documento com o novo CPF como ID
+        new_user_ref.set({
+            "user_id": user.cpf,  # Atualiza o user_id com o novo CPF
+            "username": user.username,
+            "password": password,  # Mantém ou atualiza a senha criptografada
+            "cpf": user.cpf,
+            "role": user.role,
+            "linked_user_id": user.linked_user_id or None
+        })
 
         # Deleta o documento antigo
         user_ref.delete()
@@ -75,8 +124,68 @@ async def update_user(user_id: str, user: UserSchema):
         return {"message": "CPF alterado, documento recriado com sucesso"}
 
     # Atualiza os dados no mesmo documento (se o CPF não foi alterado)
-    user_ref.update(user.dict())
+    user_data_dict = user.dict(exclude_unset=True)  # Exclui valores não enviados na requisição
+    user_data_dict["password"] = password  # Mantém a senha antiga ou atualiza se enviada
+
+    user_ref.update(user_data_dict)
     return {"message": "Usuário atualizado com sucesso"}
+
+#{
+    @router.put("/{user_id}")
+    async def update_user(user_id: str, user: UserSchema):
+        """Atualiza os dados do usuário e modifica o CPF caso necessário"""
+        user_ref = db.collection("users").document(user_id)
+        user_data = user_ref.get()
+
+        if not user_data.exists:
+            raise HTTPException(status_code=404, detail="Usuário não encontrado")
+
+        # Verifica se o CPF foi alterado
+        if user.cpf != user_id:
+            # Verifica se o novo CPF já existe
+            new_user_ref = db.collection("users").document(user.cpf)
+            if new_user_ref.get().exists:
+                raise HTTPException(status_code=400, detail="CPF já cadastrado para outro usuário")
+
+            # Cria um novo documento com o novo CPF como ID
+            user_data_dict = user.dict()
+            user_data_dict["user_id"] = user.cpf  # Atualiza o user_id com o novo CPF
+
+            new_user_ref.set(user_data_dict)
+
+            # Deleta o documento antigo
+            user_ref.delete()
+
+            return {"message": "CPF alterado, documento recriado com sucesso"}
+
+        # Atualiza os dados no mesmo documento (se o CPF não foi alterado)
+        user_ref.update(user.dict())
+        return {"message": "Usuário atualizado com sucesso"}
+
+#############################################################3 
+
+#{    @router.put("/{user_id}")
+    async def update_user(user_id: str, user: UserSchema):
+        user_ref = db.collection("users").document(user_id)
+        user_data = user_ref.get()
+        
+        if not user_data.exists:
+            raise HTTPException(status_code=404, detail="Usuário não encontrado")
+
+        # Verifica se o CPF foi alterado
+        if user.cpf != user_id:
+            # Cria um novo documento com o novo CPF como ID
+            new_user_ref = db.collection("users").document(user.cpf)
+            new_user_ref.set(user.dict())
+
+            # Deleta o documento antigo
+            user_ref.delete()
+
+            return {"message": "CPF alterado, documento recriado com sucesso"}
+
+        # Atualiza os dados no mesmo documento (se o CPF não foi alterado)
+        user_ref.update(user.dict())
+        return {"message": "Usuário atualizado com sucesso"}
 
 
 # Deletar usuário

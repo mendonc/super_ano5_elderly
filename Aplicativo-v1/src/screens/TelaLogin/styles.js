@@ -6,4 +6,6 @@ export const LogoContainer = styled.View`
   padding: 15px;
   margin: 10px 20px; /* Espaçamento interno e externo */
   position: relative; /* Necessário para posicionar o ícone dentro do container */
+  justify-content: center;
+  align-items: center;
 `;
