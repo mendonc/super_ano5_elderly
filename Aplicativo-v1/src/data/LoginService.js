@@ -4,39 +4,56 @@ import api from './api';
 
 export const loginUser = async (username, password) => {
   try {
-      const API_URL = "http://192.168.0.105:8000"; // Altere para o seu URL correto da API
+    const API_URL = "http://192.168.0.105:8000"; // Confirme se o IP está correto
 
-      console.log("📤 Enviando login para API:", { username, password });
+    console.log("📤 Enviando login para API:", { username, password });
 
-      const formBody = new URLSearchParams();
-      formBody.append("grant_type", "password"); // Isso é obrigatório para FastAPI
-      formBody.append("username", username); // Certifique-se de que o username seja o correto (pode ser email, CPF, etc.)
-      formBody.append("password", password);
+    const formBody = new URLSearchParams();
+    formBody.append("grant_type", "password");
+    formBody.append("username", username);
+    formBody.append("password", password);
 
-      const response = await fetch(`${API_URL}/token`, { // Certifique-se de que o endpoint seja correto
-          method: "POST",
-          headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: formBody.toString(),
-      });
+    const response = await fetch(`${API_URL}/token`, {  // Endpoint corrigido
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: formBody.toString(), 
+    });
 
-      console.log("📥 Resposta da API (raw):", response);
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("❌ Erro na API:", errorText);
+      throw new Error(`Erro ao fazer login: ${errorText}`);
+    }
 
-      if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Erro: ${response.status} - ${errorText}`);
-      }
+    const data = await response.json();
+    console.log("✅ Token recebido:", data);
 
-      const data = await response.json();
-      console.log("✅ Token recebido:", data);
-      return data;
+    if (data.access_token) {
+      localStorage.setItem("authToken", data.access_token);
+    } else {
+      throw new Error("Token não recebido.");
+    }
+
+    return data; // Retorna os dados da API, incluindo o token
+
   } catch (error) {
-      console.error("❌ Erro ao fazer login:", error.message);
-      return null;
+    console.error("❌ Erro ao fazer login:", error.message);
+    throw error; // Lança o erro para ser tratado no código que chamar essa função
   }
 };
 
+// Função para obter o token armazenado
+export const getStoredToken = () => {
+  return localStorage.getItem('authToken');
+};
+
+// Função para verificar se o usuário está autenticado
+export const isAuthenticated = () => {
+  const token = getStoredToken();
+  return token !== null;  // Verifica se o token existe
+};
 
 // 🔍 Buscar usuário por CPF
 export const getUserByCPF = async (cpf) => {

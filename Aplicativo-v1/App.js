@@ -1,9 +1,9 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import LoginScreen from "./src/screens/TelaLogin/telalogin";
-import ProfileSelectionScreen from "./src/screens/ProfileSelectionScreen"; // Certifique-se de que o caminho está correto!
-import CadastroScreen from "./src/screens/TelaLogin/telacadastro";
+import LoginScreen from "./src/screens/TelaLogin/telalogin.js";
+import ProfileSelectionScreen from "./src/screens/ProfileSelectionScreen.js"; // Certifique-se de que o caminho está correto!
+import CadastroScreen from "./src/screens/TelaLogin/telacadastro.js";
 
 const Stack = createStackNavigator();
 
