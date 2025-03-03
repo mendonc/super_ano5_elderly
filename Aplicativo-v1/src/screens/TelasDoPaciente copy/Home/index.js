@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, Modal, TextInput, TouchableOpacity, Text, View } from 'react-native';
 import { Plus } from 'react-native-feather';
+import { useNavigation } from '@react-navigation/native';
 import Header from '../../../components/ComponentsPaciente/Header';
 import SaudacaoSection from '../../../components/ComponentsPaciente/SaudacaoSection';
 import CardItem from '../../../components/ComponentsPaciente/CardItem';
@@ -17,12 +18,44 @@ import {
 } from './styles';
 
 export default () => {
+  const navigation = useNavigation();
   const [selectedDay, setSelectedDay] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [consultas, setConsultas] = useState(consultasMock);
+  const [medicamentos, setMedicamentos] = useState(medicamentosMock);
+  const [selectedConsulta, setSelectedConsulta] = useState(null);
+
+  // Estado para os campos do formulário
+  const [novaConsulta, setNovaConsulta] = useState({
+    date: selectedDay?.date || "21/02",
+    time: "",
+    specialty: "",
+    doctor: ""
+  });
 
   // Filtrar dados com base no dia selecionado
-  const consultasFiltradas = consultasMock.filter(consulta => consulta.date === selectedDay?.date);
-  const medicamentosFiltrados = medicamentosMock.filter(med => med.date === selectedDay?.date);
+  const consultasFiltradas = consultas.filter(consulta => consulta.date === selectedDay?.date);
+  const medicamentosFiltrados = medicamentos.filter(med => med.date === selectedDay?.date);
+
+  // Adicionar nova consulta
+  const handleSaveConsulta = () => {
+    if (!novaConsulta.time || !novaConsulta.specialty || !novaConsulta.doctor) {
+      alert("Preencha todos os campos!");
+      return;
+    }
+
+    setConsultas([...consultas, { id: Math.random().toString(), ...novaConsulta }]);
+    setShowForm(false);
+  };
+
+  // Excluir consulta
+  const handleDeleteConsulta = () => {
+    if (selectedConsulta) {
+      setConsultas(consultas.filter(c => c.id !== selectedConsulta.id));
+      setSelectedConsulta(null);
+    }
+  };
 
   return (
     <Container>
@@ -44,7 +77,9 @@ export default () => {
         <SectionTitle>Consultas/exames</SectionTitle>
         {consultasFiltradas.length > 0 ? (
           consultasFiltradas.map((consulta) => (
-            <CardItem key={consulta.id} title={`${consulta.time} - ${consulta.specialty}`} description={`Médico: ${consulta.doctor}`} />
+            <TouchableOpacity key={consulta.id} onPress={() => setSelectedConsulta(consulta)}>
+              <CardItem title={`${consulta.time} - ${consulta.specialty}`} description={`Médico: ${consulta.doctor}`} />
+            </TouchableOpacity>
           ))
         ) : (
           <CardItem title="Sem consultas para hoje" description="" />
@@ -70,19 +105,125 @@ export default () => {
       </FloatingButton>
 
       {/* Modal de Opções */}
-      {showModal && (
-        <ModalContainer>
-          <OptionButton onPress={() => console.log("Adicionar Consulta")}>
-            <OptionText>Adicionar Consulta</OptionText>
-          </OptionButton>
-          <OptionButton onPress={() => console.log("Adicionar Medicamento")}>
-            <OptionText>Adicionar Medicamento</OptionText>
-          </OptionButton>
-          <OptionButton onPress={() => setShowModal(false)}>
-            <OptionText>Cancelar</OptionText>
-          </OptionButton>
-        </ModalContainer>
-      )}
+      <Modal visible={showModal} transparent animationType="slide">
+        <View style={styles.modalOverlay}>
+          <View style={styles.bottomModal}>
+            <OptionButton onPress={() => {
+              setShowModal(false);
+              setShowForm(true);
+            }}>
+              <OptionText>Adicionar Consulta</OptionText>
+            </OptionButton>
+            <OptionButton onPress={() => {
+              setShowModal(false);
+              navigation.navigate('Tratamento');  // 🔹 Navega para a tela de Tratamento
+            }}>
+              <OptionText>Adicionar Medicamento</OptionText>
+            </OptionButton>
+            <OptionButton onPress={() => setShowModal(false)}>
+              <OptionText>Cancelar</OptionText>
+            </OptionButton>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal de Formulário */}
+      <Modal visible={showForm} transparent animationType="slide">
+        <View style={styles.modalOverlay}>
+          <View style={styles.formContainer}>
+            <Text style={styles.modalTitle}>Nova Consulta</Text>
+
+            <TextInput
+              placeholder="Data (ex: 20/02)"
+              value={novaConsulta.date}
+              onChangeText={(text) => setNovaConsulta({ ...novaConsulta, date: text })}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="Horário (ex: 14:00)"
+              value={novaConsulta.time}
+              onChangeText={(text) => setNovaConsulta({ ...novaConsulta, time: text })}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="Especialidade"
+              value={novaConsulta.specialty}
+              onChangeText={(text) => setNovaConsulta({ ...novaConsulta, specialty: text })}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="Nome do Médico"
+              value={novaConsulta.doctor}
+              onChangeText={(text) => setNovaConsulta({ ...novaConsulta, doctor: text })}
+              style={styles.input}
+            />
+
+            <OptionButton onPress={handleSaveConsulta}>
+              <OptionText>Salvar Consulta</OptionText>
+            </OptionButton>
+            <OptionButton onPress={() => setShowForm(false)}>
+              <OptionText>Cancelar</OptionText>
+            </OptionButton>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal de Exclusão de Consulta */}
+      <Modal visible={!!selectedConsulta} transparent animationType="slide">
+        <View style={styles.modalOverlay}>
+          <View style={styles.formContainer}>
+            <Text style={styles.modalTitle}>Excluir Consulta?</Text>
+            <Text style={{ fontSize: 18, textAlign: 'center' }}>
+              {selectedConsulta?.time} - {selectedConsulta?.specialty} {"\n"}
+              Médico: {selectedConsulta?.doctor}
+            </Text>
+
+            <OptionButton onPress={handleDeleteConsulta}>
+              <OptionText>Excluir</OptionText>
+            </OptionButton>
+            <OptionButton onPress={() => setSelectedConsulta(null)}>
+              <OptionText>Cancelar</OptionText>
+            </OptionButton>
+          </View>
+        </View>
+      </Modal>
     </Container>
   );
+};
+
+// 🔹 Estilos do modal
+const styles = {
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  },
+  bottomModal: {
+    width: '90%',
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center'
+  },
+  formContainer: {
+    width: '90%',
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center'
+  },
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 10
+  },
+  input: {
+    width: '100%',
+    padding: 10,
+    marginVertical: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5
+  },
 };
