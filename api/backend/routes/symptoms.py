@@ -16,20 +16,20 @@ async def create_symptom(symptom: SymptomSchema):
     if not user_ref.get().exists:
         raise HTTPException(status_code=400, detail="Usuário não encontrado")
 
-    # Evitar duplicação de sintomas para o mesmo usuário
+    # Buscar sintomas existentes para o mesmo usuário e tipo
     symptoms_ref = db.collection("symptoms")
     existing_symptoms = symptoms_ref \
         .where("user_id", "==", symptom.user_id) \
         .where("symptom_type", "==", symptom.symptom_type) \
-        .get()
+        .stream()  # Alterado para stream() para percorrer os documentos
 
-    if len(existing_symptoms) > 0:  # Agora a condição está correta
-        raise HTTPException(status_code=400, detail="Sintoma já cadastrado para este usuário")
+    # Deletar qualquer sintoma anterior antes de salvar o novo
+    for doc in existing_symptoms:
+        doc.reference.delete()
 
-    # Criar o sintoma
+    # Criar o novo sintoma
     new_symptom_ref = symptoms_ref.document()
-
-    # Compatibilidade entre Pydantic v1 e v2
+    
     try:
         symptom_data = symptom.model_dump()  # Pydantic v2
     except AttributeError:
@@ -37,7 +37,7 @@ async def create_symptom(symptom: SymptomSchema):
 
     new_symptom_ref.set(symptom_data)
 
-    return {"message": "Sintoma adicionado com sucesso", "id": new_symptom_ref.id}
+    return {"message": "Sintoma substituído com sucesso", "id": new_symptom_ref.id}
 
 @router.get("/symptoms/{user_id}")
 def get_symptoms(user_id: str):
