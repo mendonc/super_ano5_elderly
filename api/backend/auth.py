@@ -1,12 +1,3 @@
-#from fastapi import Depends, HTTPException, status
-#from fastapi.security import OAuth2PasswordBearer
-#from jose import JWTError, jwt
-#from datetime import datetime, timedelta
-#from backend.schemas import UserSchema
-#from backend.database import get_user_by_username, get_user_by_id  # Supondo que existam essas funções
-#from passlib.context import CryptContext
-
-
 from fastapi import Depends, HTTPException, status
 from jose import JWTError, jwt
 from datetime import datetime, timedelta

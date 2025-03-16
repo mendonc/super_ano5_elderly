@@ -57,4 +57,3 @@ class SymptomUpdateSchema(BaseModel):
     severity: Optional[int] = Field(None, ge=1, le=10)
 
 
-

@@ -41,24 +41,25 @@ export default function LoginScreen() {
     return () => unsubscribe();
   }, []);
 
+  
   const handleLogin = async () => {
     if (!username || !password) {
       Alert.alert("Erro", "Todos os campos são obrigatórios");
       return;
     }
-
-    if (isOffline) return; // Impede login se estiver offline
-
+  
+    if (isOffline) return;
+  
     setLoading(true);
-    const result = await loginUser(username, password);
+    const result = await loginUser(username, password); // Envia username e password
     setLoading(false);
-
+  
     if (result && result.access_token) {
       try {
         await AsyncStorage.setItem("token", result.access_token);
         Alert.alert("Sucesso", "Login realizado com sucesso!");
-        setUsername(""); // Limpa o campo de usuário após o login
-        setPassword(""); // Limpa o campo de senha após o login
+        setUsername("");
+        setPassword("");
         navigation.navigate("ProfileSelectionScreen");
       } catch (error) {
         console.error("Erro ao salvar token:", error);
@@ -69,6 +70,7 @@ export default function LoginScreen() {
     }
   };
 
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -77,11 +79,10 @@ export default function LoginScreen() {
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
-        placeholder="CPF"
+        placeholder="Username"  // Alterado para "Username"
         placeholderTextColor="#888"
         value={username}
         onChangeText={setUsername}
-        keyboardType="numeric" // Define o tipo de teclado para CPF
         autoCapitalize="none"
       />
       <TextInput

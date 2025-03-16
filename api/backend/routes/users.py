@@ -19,6 +19,12 @@ router = APIRouter()
 
 @router.post("/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+
+     # Logs para depuração
+    print("📥 Dados recebidos no back-end:")
+    print("Username:", form_data.username)
+    print("Password:", form_data.password)
+    
     """Realiza login e retorna o token JWT"""
     user = authenticate_user(form_data.username, form_data.password)
     if not user:
@@ -29,6 +35,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 
     #token = create_access_token({"sub": user.user_id, "role": user.role}, access_token_expires)
     
+    print("✅ Token gerado:", token)  # Log do token gerado
     return {"access_token": token, "token_type": "bearer"}
 
 
@@ -53,26 +60,6 @@ def create_user(user_data: UserCreateSchema):
     })
 
     return {"message": "Usuário criado com sucesso!"}
-
-
-#{    @router.post("/")
-    def create_user(user_data: UserCreateSchema):
-        """Cria um novo usuário com senha criptografada"""
-        hashed_password = hash_password(user_data.password)  # Criptografa a senha
-
-        
-
-        user_ref = db.collection("users").document(user_data.cpf)  # Define o CPF como ID do documento
-        user_ref.set({
-            "user_id": user_data.cpf,  # O CPF será o user_id
-            "username": user_data.username,
-            "password": hashed_password,  # Salva a senha criptografada
-            "cpf": user_data.cpf,
-            "role": user_data.role,
-            "linked_user_id": user_data.linked_user_id or None  # Certifica-se de que é None se não for enviado
-        })
-
-        return {"message": "Usuário criado com sucesso!"}
 
 
 @router.get("/{cpf}")
@@ -129,63 +116,6 @@ async def update_user(user_id: str, user: UserSchema):
 
     user_ref.update(user_data_dict)
     return {"message": "Usuário atualizado com sucesso"}
-
-#{
-    @router.put("/{user_id}")
-    async def update_user(user_id: str, user: UserSchema):
-        """Atualiza os dados do usuário e modifica o CPF caso necessário"""
-        user_ref = db.collection("users").document(user_id)
-        user_data = user_ref.get()
-
-        if not user_data.exists:
-            raise HTTPException(status_code=404, detail="Usuário não encontrado")
-
-        # Verifica se o CPF foi alterado
-        if user.cpf != user_id:
-            # Verifica se o novo CPF já existe
-            new_user_ref = db.collection("users").document(user.cpf)
-            if new_user_ref.get().exists:
-                raise HTTPException(status_code=400, detail="CPF já cadastrado para outro usuário")
-
-            # Cria um novo documento com o novo CPF como ID
-            user_data_dict = user.dict()
-            user_data_dict["user_id"] = user.cpf  # Atualiza o user_id com o novo CPF
-
-            new_user_ref.set(user_data_dict)
-
-            # Deleta o documento antigo
-            user_ref.delete()
-
-            return {"message": "CPF alterado, documento recriado com sucesso"}
-
-        # Atualiza os dados no mesmo documento (se o CPF não foi alterado)
-        user_ref.update(user.dict())
-        return {"message": "Usuário atualizado com sucesso"}
-
-#############################################################3 
-
-#{    @router.put("/{user_id}")
-    async def update_user(user_id: str, user: UserSchema):
-        user_ref = db.collection("users").document(user_id)
-        user_data = user_ref.get()
-        
-        if not user_data.exists:
-            raise HTTPException(status_code=404, detail="Usuário não encontrado")
-
-        # Verifica se o CPF foi alterado
-        if user.cpf != user_id:
-            # Cria um novo documento com o novo CPF como ID
-            new_user_ref = db.collection("users").document(user.cpf)
-            new_user_ref.set(user.dict())
-
-            # Deleta o documento antigo
-            user_ref.delete()
-
-            return {"message": "CPF alterado, documento recriado com sucesso"}
-
-        # Atualiza os dados no mesmo documento (se o CPF não foi alterado)
-        user_ref.update(user.dict())
-        return {"message": "Usuário atualizado com sucesso"}
 
 
 # Deletar usuário
