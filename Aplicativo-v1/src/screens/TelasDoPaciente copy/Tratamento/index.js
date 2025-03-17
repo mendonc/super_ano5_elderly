@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';  
+import React, { useState, useEffect } from 'react';
 import { Modal, Text, TextInput, TouchableOpacity, View, SafeAreaView } from 'react-native';
 import { Container, SectionTitle, AddButton, AddButtonText, ModalContainer, ModalContent, ModalButton, ModalButtonText, Input } from './styles';
 import Header from '../../../components/ComponentsPaciente/Header';
 import MedicamentoList from './MedicamentoList';
 import { getMedicamentos, addMedicamento, updateMedicamento, deleteMedicamento } from '../../../data/medicamentoService';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Importe AsyncStorage
 
 export default () => {
     const [medicamentos, setMedicamentos] = useState([]);
@@ -16,14 +17,21 @@ export default () => {
         frequency: '',
     });
 
-    const userId = "99977755533";
+    const [userId, setUserId] = useState(null); // Estado para armazenar o userId
 
-    // 🔹 Carregar medicamentos ao iniciar a tela
     useEffect(() => {
-        carregarMedicamentos();
+        const fetchUserId = async () => {
+            const storedUserId = await AsyncStorage.getItem('userCPF');
+            if (storedUserId) {
+                setUserId(storedUserId);
+                carregarMedicamentos(storedUserId); // Carrega os medicamentos com o userId correto
+            }
+        };
+        fetchUserId();
     }, []);
 
-    const carregarMedicamentos = async () => {
+    const carregarMedicamentos = async (userId) => {
+        if (!userId) return; // Verifica se userId está disponível
         const data = await getMedicamentos(userId);
         setMedicamentos(data);
     };
@@ -34,38 +42,32 @@ export default () => {
         setIsModalVisible(true);
     };
 
-    // 🔹 Adicionar novo medicamento e atualizar a lista
     const handleAddMedicamento = async () => {
         const newMedicamento = {
             ...currentMedicamento,
-            user_id: userId,
+            user_id: userId, // Usa userId do estado
         };
 
         const response = await addMedicamento(newMedicamento);
         if (response) {
-            await carregarMedicamentos(); // 🔄 Atualiza a lista
+            await carregarMedicamentos(userId); // Passa userId para carregarMedicamentos
             closeModal();
         }
     };
 
-    // 🔹 Atualizar medicamento
     const handleSaveMedicamento = async () => {
         const response = await updateMedicamento(currentMedicamento.id, currentMedicamento);
         if (response) {
-            await carregarMedicamentos(); // 🔄 Atualiza a lista
+            await carregarMedicamentos(userId); // Passa userId para carregarMedicamentos
             closeModal();
         }
     };
 
-    // 🔹 Deletar medicamento
     const handleDeleteMedicamento = async (id) => {
-        const success = await deleteMedicamento(id);
-        if (success) {
-            await carregarMedicamentos(); // 🔄 Atualiza a lista
-        }
+        await deleteMedicamento(id);
+        await carregarMedicamentos(userId); // Passa userId para carregarMedicamentos
     };
 
-    // 🔹 Fechar modal
     const closeModal = () => {
         setIsModalVisible(false);
         setIsEditMode(false);
@@ -82,10 +84,10 @@ export default () => {
             </AddButton>
 
             <SafeAreaView style={{ flex: 1, paddingBottom: 1 }}>
-                <MedicamentoList 
-                    medicamentos={medicamentos} 
-                    onEdit={handleEditMedicamento} 
-                    onDelete={handleDeleteMedicamento} 
+                <MedicamentoList
+                    medicamentos={medicamentos}
+                    onEdit={handleEditMedicamento}
+                    onDelete={handleDeleteMedicamento}
                 />
             </SafeAreaView>
 

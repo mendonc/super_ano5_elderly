@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
-import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    StyleSheet,
-    Alert,
-    Switch,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Switch } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { deleteUser, getUserByCPF } from '../../data/LoginService';
 
 export default function AccountScreen() {
     const [accountData, setAccountData] = useState({
         email: 'joao.silva@example.com',
         phone: '(11) 99999-9999',
-        notifications: true, // Notificações habilitadas por padrão
+        notifications: true,
     });
+
+    const navigation = useNavigation();
 
     const handleSave = () => {
         Alert.alert('Dados Atualizados', 'As alterações foram salvas com sucesso.');
@@ -27,36 +24,79 @@ export default function AccountScreen() {
         );
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         Alert.alert('Sair da Conta', 'Tem certeza que deseja sair?', [
             { text: 'Cancelar', style: 'cancel' },
-            { text: 'Sair', onPress: () => console.log('Usuário saiu') },
+            {
+                text: 'Sair',
+                onPress: async () => {
+                    try {
+                        await AsyncStorage.removeItem('authToken');
+                        await AsyncStorage.removeItem('userCPF');
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'LoginScreen' }],
+                        });
+                    } catch (error) {
+                        console.error('Erro ao fazer logout:', error);
+                        Alert.alert('Erro', 'Ocorreu um erro ao fazer logout.');
+                    }
+                },
+            },
         ]);
     };
 
-    const handleDeleteAccount = () => {
+    const handleDeleteAccount = async () => {
         Alert.alert(
             'Excluir Conta',
             'Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita.',
             [
                 { text: 'Cancelar', style: 'cancel' },
-                { text: 'Excluir', onPress: () => console.log('Conta excluída') },
+                {
+                    text: 'Excluir',
+                    onPress: async () => {
+                        try {
+                            const cpf = await AsyncStorage.getItem('userCPF');
+                            if (!cpf) {
+                                Alert.alert('Erro', 'CPF não encontrado.');
+                                return;
+                            }
+                            const userData = await getUserByCPF(cpf);
+                            if (!userData) {
+                                Alert.alert('Erro', 'Usuário não encontrado.');
+                                return;
+                            }
+                            const userId = userData.user_id;
+                            const success = await deleteUser(userId);
+                            if (success) {
+                                await AsyncStorage.removeItem('authToken');
+                                await AsyncStorage.removeItem('userCPF');
+                                navigation.reset({
+                                    index: 0,
+                                    routes: [{ name: 'LoginScreen' }],
+                                });
+                            } else {
+                                Alert.alert('Erro', 'Falha ao excluir a conta.');
+                            }
+                        } catch (error) {
+                            console.error('Erro ao excluir a conta:', error);
+                            Alert.alert('Erro', 'Ocorreu um erro ao excluir a conta.');
+                        }
+                    },
+                },
             ]
         );
     };
 
     return (
         <View style={styles.container}>
-            {/* Campos Editáveis */}
             <View style={styles.fieldContainer}>
                 <Text style={styles.label}>E-mail</Text>
                 <TextInput
                     style={styles.input}
                     value={accountData.email}
                     keyboardType="email-address"
-                    onChangeText={(text) =>
-                        setAccountData((prev) => ({ ...prev, email: text }))
-                    }
+                    onChangeText={(text) => setAccountData((prev) => ({ ...prev, email: text }))}
                 />
             </View>
 
@@ -66,24 +106,18 @@ export default function AccountScreen() {
                     style={styles.input}
                     value={accountData.phone}
                     keyboardType="phone-pad"
-                    onChangeText={(text) =>
-                        setAccountData((prev) => ({ ...prev, phone: text }))
-                    }
+                    onChangeText={(text) => setAccountData((prev) => ({ ...prev, phone: text }))}
                 />
             </View>
 
-            {/* Notificações */}
             <View style={styles.switchContainer}>
                 <Text style={styles.label}>Notificações</Text>
                 <Switch
                     value={accountData.notifications}
-                    onValueChange={(value) =>
-                        setAccountData((prev) => ({ ...prev, notifications: value }))
-                    }
+                    onValueChange={(value) => setAccountData((prev) => ({ ...prev, notifications: value }))}
                 />
             </View>
 
-            {/* Botões de Ação */}
             <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
                 <Text style={styles.saveButtonText}>Salvar Alterações</Text>
             </TouchableOpacity>
