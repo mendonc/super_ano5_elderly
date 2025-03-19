@@ -13,3 +13,6 @@ def verify_password(password: str, hashed_password: str) -> bool:
         return ph.verify(hashed_password, password)
     except VerifyMismatchError:
         return False
+    except Exception as e:
+        print(f"Erro na verificação da senha: {e}") # Adiciona tratamento de erro
+        return False

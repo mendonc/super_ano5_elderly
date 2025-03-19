@@ -4,7 +4,7 @@ import TabPaciente from './TabPaciente';
 
 // 📌 Importação correta das telas de Bem-estar
 import BemEstarScreen from '../../screens/TelasDoPaciente copy/BemEstar/index';
-import SonoScreen from '../../screens/TelasDoPaciente copy/BemEstar/sono';
+//import SonoScreen from '../../screens/TelasDoPaciente copy/BemEstar/sono';
 
 // 📌 Outras telas do paciente
 import MessagesScreen from '../../screens/TelasDoPaciente copy/Mais/MessagesScreen';
@@ -24,7 +24,6 @@ export default function MainStackPaciente() {
 
             {/* 📌 Novas Telas de Bem-estar */}
             <Stack.Screen name="BemEstar" component={BemEstarScreen} />
-            <Stack.Screen name="Sono" component={SonoScreen} />
 
             {/* Telas adicionais da aba "Mais" */}
             <Stack.Screen name="Mensagens" component={MessagesScreen} />

@@ -6,61 +6,88 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LogoPrincipal from "../../assets/LogoPrincipal.svg";
-import { loginUser } from "../../data/LoginService";  
-import NetInfo from '@react-native-community/netinfo'; // Importa o NetInfo
+import { loginUser, getUserByCPF } from "../../data/LoginService";  
+import NetInfo from '@react-native-community/netinfo'; 
 
 export default function LoginScreen() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isOffline, setIsOffline] = useState(false); // Para checar se está offline
+  const [isOffline, setIsOffline] = useState(false);
   const navigation = useNavigation();
 
-  // Função para checar a conectividade com a internet
-  const checkNetworkStatus = async () => {
-    const state = await NetInfo.fetch();
-    setIsOffline(!state.isConnected); // Se não estiver conectado, define como offline
-    if (!state.isConnected) {
-      Alert.alert("Erro de Conexão", "Você está offline, verifique sua conexão com a internet.");
-    }
-  };
-
-  // Usa o hook useEffect para verificar a rede assim que o componente for montado
+  // 🔹 Verifica se já existe um usuário logado
   useEffect(() => {
-    checkNetworkStatus(); // Verifica a conexão quando o componente é carregado
+    const checkUserLogin = async () => {
+      const token = await AsyncStorage.getItem("authToken");
+      const cpf = await AsyncStorage.getItem("userCPF");
 
-    // Adiciona um listener para mudanças na rede
-    const unsubscribe = NetInfo.addEventListener(state => {
-      setIsOffline(!state.isConnected);
-      if (!state.isConnected) {
-        Alert.alert("Erro de Conexão", "Você está offline, verifique sua conexão com a internet.");
+      if (token && cpf) {
+        console.log("✅ Usuário já logado. Verificando role...");
+        const userData = await getUserByCPF(cpf);
+
+        if (userData && userData.role) {
+          redirectToRole(userData.role);
+        } else {
+          console.log("⚠️ Erro ao obter o role do usuário.");
+          Alert.alert("Erro", "Não foi possível verificar seu perfil.");
+        }
       }
-    });
+    };
 
-    // Limpeza do listener quando o componente for desmontado
-    return () => unsubscribe();
+    checkUserLogin();
   }, []);
 
-  
+  // 🔹 Redireciona o usuário com base no role
+  const redirectToRole = (role) => {
+    console.log(`Role recebido: ${role}`);
+    let screen = "ProfileSelectionScreen"; // Fallback
+
+    if (role === "paciente") {
+      screen = "PacienteStack";
+    } else if (role === "medico") {
+      screen = "MedicoStack";
+    } else if (role === "guardião") {
+      screen = "GuardiaoStack";
+    }
+
+    console.log(`🔀 Redirecionando para: ${screen}`);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: screen }], // Remove a tela de login da pilha
+    });
+  };
+
+  // 🔹 Lógica de login
+
   const handleLogin = async () => {
     if (!username || !password) {
       Alert.alert("Erro", "Todos os campos são obrigatórios");
       return;
     }
-  
+
     if (isOffline) return;
-  
+
+
     setLoading(true);
     const result = await loginUser(username, password); // Envia username e password
     setLoading(false);
-  
+
+
+    console.log("🔍 Resposta da API:", result);
+
     if (result && result.access_token) {
       try {
-        await AsyncStorage.setItem("token", result.access_token);
-        Alert.alert("Sucesso", "Login realizado com sucesso!");
-        setUsername("");
-        setPassword("");
-        navigation.navigate("ProfileSelectionScreen");
+        await AsyncStorage.setItem("authToken", result.access_token);
+        await AsyncStorage.setItem("userCPF", username); // Salva CPF para buscar os dados depois
+
+        const userData = await getUserByCPF(username); // Obtém os dados do usuário
+        console.log("Dados do usuário obtidos:", userData);
+        if (userData && userData.role) {
+          redirectToRole(userData.role);
+        } else {
+          Alert.alert("Erro", "Erro ao obter o perfil do usuário.");
+        }
       } catch (error) {
         console.error("Erro ao salvar token:", error);
         Alert.alert("Erro", "Ocorreu um erro ao salvar as credenciais.");
@@ -83,6 +110,8 @@ export default function LoginScreen() {
         placeholderTextColor="#888"
         value={username}
         onChangeText={setUsername}
+        keyboardType="numeric"
+
         autoCapitalize="none"
       />
       <TextInput
@@ -96,7 +125,7 @@ export default function LoginScreen() {
       <TouchableOpacity 
         style={[styles.button, { opacity: loading || isOffline ? 0.6 : 1 }]} 
         onPress={handleLogin} 
-        disabled={loading || isOffline} // Desabilita o botão se estiver fazendo login ou offline
+        disabled={loading || isOffline}
       >
         {loading ? (
           <ActivityIndicator size="small" color="#3073c5" />
