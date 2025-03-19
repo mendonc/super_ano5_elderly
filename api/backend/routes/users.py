@@ -11,6 +11,12 @@ router = APIRouter()
 
 @router.post("/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+
+     # Logs para depuração
+    print("📥 Dados recebidos no back-end:")
+    print("Username:", form_data.username)
+    print("Password:", form_data.password)
+    
     """Realiza login e retorna o token JWT"""
     user = authenticate_user(form_data.username, form_data.password)
 
@@ -100,7 +106,6 @@ async def update_user(user_id: str, user: UserSchema):
     return {"message": "Usuário atualizado com sucesso"}
 
 
-# 🗑️ Deletar usuário
 @router.delete("/{user_id}")
 async def delete_user(user_id: str):
     """Deleta um usuário pelo user_id"""

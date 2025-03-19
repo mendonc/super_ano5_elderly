@@ -1,26 +1,26 @@
 {
-  "root": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly",
-  "reactNativePath": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native",
+  "root": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens",
+  "reactNativePath": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native",
   "reactNativeVersion": "0.76",
   "dependencies": {
     "@react-native-async-storage/async-storage": {
-      "root": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\@react-native-async-storage\\async-storage",
+      "root": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\@react-native-async-storage\\async-storage",
       "name": "@react-native-async-storage/async-storage",
       "platforms": {
         "ios": {
-          "podspecPath": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\@react-native-async-storage\\async-storage\\RNCAsyncStorage.podspec",
+          "podspecPath": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\@react-native-async-storage\\async-storage\\RNCAsyncStorage.podspec",
           "version": "2.1.1",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\@react-native-async-storage\\async-storage\\android",
+          "sourceDir": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\@react-native-async-storage\\async-storage\\android",
           "packageImportPath": "import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;",
           "packageInstance": "new AsyncStoragePackage()",
           "buildTypes": [],
           "libraryName": "rnasyncstorage",
           "componentDescriptors": [],
-          "cmakeListsPath": "D:/Users/acsas/projetos/Elderly/super_ano5_elderly/node_modules/@react-native-async-storage/async-storage/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/Users/pltmt/Downloads/super_ano5_elderly-TodasScreens/node_modules/@react-native-async-storage/async-storage/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -29,23 +29,47 @@
       }
     },
     "@react-native-community/datetimepicker": {
-      "root": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\@react-native-community\\datetimepicker",
+      "root": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\@react-native-community\\datetimepicker",
       "name": "@react-native-community/datetimepicker",
       "platforms": {
         "ios": {
-          "podspecPath": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\@react-native-community\\datetimepicker\\RNDateTimePicker.podspec",
+          "podspecPath": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\@react-native-community\\datetimepicker\\RNDateTimePicker.podspec",
           "version": "8.3.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\@react-native-community\\datetimepicker\\android",
+          "sourceDir": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\@react-native-community\\datetimepicker\\android",
           "packageImportPath": "import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;",
           "packageInstance": "new RNDateTimePickerPackage()",
           "buildTypes": [],
           "libraryName": "RNDateTimePickerCGen",
           "componentDescriptors": [],
-          "cmakeListsPath": "D:/Users/acsas/projetos/Elderly/super_ano5_elderly/node_modules/@react-native-community/datetimepicker/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/Users/pltmt/Downloads/super_ano5_elderly-TodasScreens/node_modules/@react-native-community/datetimepicker/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
+    "@react-native-community/netinfo": {
+      "root": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\@react-native-community\\netinfo",
+      "name": "@react-native-community/netinfo",
+      "platforms": {
+        "ios": {
+          "podspecPath": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\@react-native-community\\netinfo\\react-native-netinfo.podspec",
+          "version": "11.4.1",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\@react-native-community\\netinfo\\android",
+          "packageImportPath": "import com.reactnativecommunity.netinfo.NetInfoPackage;",
+          "packageInstance": "new NetInfoPackage()",
+          "buildTypes": [],
+          "componentDescriptors": [],
+          "cmakeListsPath": "C:/Users/pltmt/Downloads/super_ano5_elderly-TodasScreens/node_modules/@react-native-community/netinfo/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -54,22 +78,22 @@
       }
     },
     "react-native-encrypted-storage": {
-      "root": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-encrypted-storage",
+      "root": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-encrypted-storage",
       "name": "react-native-encrypted-storage",
       "platforms": {
         "ios": {
-          "podspecPath": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-encrypted-storage\\react-native-encrypted-storage.podspec",
+          "podspecPath": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-encrypted-storage\\react-native-encrypted-storage.podspec",
           "version": "4.0.3",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-encrypted-storage\\android",
+          "sourceDir": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-encrypted-storage\\android",
           "packageImportPath": "import com.emeraldsanto.encryptedstorage.RNEncryptedStoragePackage;",
           "packageInstance": "new RNEncryptedStoragePackage()",
           "buildTypes": [],
           "componentDescriptors": [],
-          "cmakeListsPath": "D:/Users/acsas/projetos/Elderly/super_ano5_elderly/node_modules/react-native-encrypted-storage/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/Users/pltmt/Downloads/super_ano5_elderly-TodasScreens/node_modules/react-native-encrypted-storage/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -78,17 +102,17 @@
       }
     },
     "react-native-gesture-handler": {
-      "root": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-gesture-handler",
+      "root": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-gesture-handler",
       "name": "react-native-gesture-handler",
       "platforms": {
         "ios": {
-          "podspecPath": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-gesture-handler\\RNGestureHandler.podspec",
+          "podspecPath": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-gesture-handler\\RNGestureHandler.podspec",
           "version": "2.24.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-gesture-handler\\android",
+          "sourceDir": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-gesture-handler\\android",
           "packageImportPath": "import com.swmansion.gesturehandler.RNGestureHandlerPackage;",
           "packageInstance": "new RNGestureHandlerPackage()",
           "buildTypes": [],
@@ -97,7 +121,7 @@
             "RNGestureHandlerButtonComponentDescriptor",
             "RNGestureHandlerRootViewComponentDescriptor"
           ],
-          "cmakeListsPath": "D:/Users/acsas/projetos/Elderly/super_ano5_elderly/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/Users/pltmt/Downloads/super_ano5_elderly-TodasScreens/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -106,23 +130,23 @@
       }
     },
     "react-native-image-picker": {
-      "root": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-image-picker",
+      "root": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-image-picker",
       "name": "react-native-image-picker",
       "platforms": {
         "ios": {
-          "podspecPath": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-image-picker\\react-native-image-picker.podspec",
-          "version": "8.1.0",
+          "podspecPath": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-image-picker\\react-native-image-picker.podspec",
+          "version": "8.2.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-image-picker\\android",
+          "sourceDir": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-image-picker\\android",
           "packageImportPath": "import com.imagepicker.ImagePickerPackage;",
           "packageInstance": "new ImagePickerPackage()",
           "buildTypes": [],
           "libraryName": "RNImagePickerSpec",
           "componentDescriptors": [],
-          "cmakeListsPath": "D:/Users/acsas/projetos/Elderly/super_ano5_elderly/node_modules/react-native-image-picker/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/Users/pltmt/Downloads/super_ano5_elderly-TodasScreens/node_modules/react-native-image-picker/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -131,23 +155,23 @@
       }
     },
     "react-native-permissions": {
-      "root": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-permissions",
+      "root": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-permissions",
       "name": "react-native-permissions",
       "platforms": {
         "ios": {
-          "podspecPath": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-permissions\\RNPermissions.podspec",
+          "podspecPath": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-permissions\\RNPermissions.podspec",
           "version": "5.2.5",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-permissions\\android",
+          "sourceDir": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-permissions\\android",
           "packageImportPath": "import com.zoontek.rnpermissions.RNPermissionsPackage;",
           "packageInstance": "new RNPermissionsPackage()",
           "buildTypes": [],
           "libraryName": "RNPermissionsSpec",
           "componentDescriptors": [],
-          "cmakeListsPath": "D:/Users/acsas/projetos/Elderly/super_ano5_elderly/node_modules/react-native-permissions/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/Users/pltmt/Downloads/super_ano5_elderly-TodasScreens/node_modules/react-native-permissions/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -156,17 +180,17 @@
       }
     },
     "react-native-safe-area-context": {
-      "root": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-safe-area-context",
+      "root": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-safe-area-context",
       "name": "react-native-safe-area-context",
       "platforms": {
         "ios": {
-          "podspecPath": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-safe-area-context\\react-native-safe-area-context.podspec",
+          "podspecPath": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-safe-area-context\\react-native-safe-area-context.podspec",
           "version": "4.14.1",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-safe-area-context\\android",
+          "sourceDir": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-safe-area-context\\android",
           "packageImportPath": "import com.th3rdwave.safeareacontext.SafeAreaContextPackage;",
           "packageInstance": "new SafeAreaContextPackage()",
           "buildTypes": [],
@@ -175,7 +199,7 @@
             "RNCSafeAreaProviderComponentDescriptor",
             "RNCSafeAreaViewComponentDescriptor"
           ],
-          "cmakeListsPath": "D:/Users/acsas/projetos/Elderly/super_ano5_elderly/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/Users/pltmt/Downloads/super_ano5_elderly-TodasScreens/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -184,17 +208,17 @@
       }
     },
     "react-native-screens": {
-      "root": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-screens",
+      "root": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-screens",
       "name": "react-native-screens",
       "platforms": {
         "ios": {
-          "podspecPath": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-screens\\RNScreens.podspec",
+          "podspecPath": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-screens\\RNScreens.podspec",
           "version": "3.36.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-screens\\android",
+          "sourceDir": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-screens\\android",
           "packageImportPath": "import com.swmansion.rnscreens.RNScreensPackage;",
           "packageInstance": "new RNScreensPackage()",
           "buildTypes": [],
@@ -210,7 +234,7 @@
             "RNSScreenComponentDescriptor",
             "RNSModalScreenComponentDescriptor"
           ],
-          "cmakeListsPath": "D:/Users/acsas/projetos/Elderly/super_ano5_elderly/node_modules/react-native-screens/android/src/main/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/Users/pltmt/Downloads/super_ano5_elderly-TodasScreens/node_modules/react-native-screens/android/src/main/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -219,17 +243,17 @@
       }
     },
     "react-native-svg": {
-      "root": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-svg",
+      "root": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-svg",
       "name": "react-native-svg",
       "platforms": {
         "ios": {
-          "podspecPath": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-svg\\RNSVG.podspec",
+          "podspecPath": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-svg\\RNSVG.podspec",
           "version": "15.11.2",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-svg\\android",
+          "sourceDir": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-svg\\android",
           "packageImportPath": "import com.horcrux.svg.SvgPackage;",
           "packageInstance": "new SvgPackage()",
           "buildTypes": [],
@@ -265,7 +289,7 @@
             "RNSVGTSpanComponentDescriptor",
             "RNSVGUseComponentDescriptor"
           ],
-          "cmakeListsPath": "D:/Users/acsas/projetos/Elderly/super_ano5_elderly/node_modules/react-native-svg/android/src/main/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/Users/pltmt/Downloads/super_ano5_elderly-TodasScreens/node_modules/react-native-svg/android/src/main/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -274,23 +298,23 @@
       }
     },
     "react-native-vector-icons": {
-      "root": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-vector-icons",
+      "root": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-vector-icons",
       "name": "react-native-vector-icons",
       "platforms": {
         "ios": {
-          "podspecPath": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-vector-icons\\RNVectorIcons.podspec",
+          "podspecPath": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-vector-icons\\RNVectorIcons.podspec",
           "version": "10.2.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\node_modules\\react-native-vector-icons\\android",
+          "sourceDir": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\node_modules\\react-native-vector-icons\\android",
           "packageImportPath": "import com.oblador.vectoricons.VectorIconsPackage;",
           "packageInstance": "new VectorIconsPackage()",
           "buildTypes": [],
           "libraryName": "RNVectorIconsSpec",
           "componentDescriptors": [],
-          "cmakeListsPath": "D:/Users/acsas/projetos/Elderly/super_ano5_elderly/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/Users/pltmt/Downloads/super_ano5_elderly-TodasScreens/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -456,7 +480,7 @@
         {
           "name": "--path <path>",
           "description": "Path to the React Native project root.",
-          "default": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly"
+          "default": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens"
         },
         {
           "name": "--platform <string>",
@@ -743,7 +767,7 @@
   "assets": [],
   "project": {
     "ios": {
-      "sourceDir": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\ios",
+      "sourceDir": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\ios",
       "xcodeProject": {
         "name": "Aplicativo.xcodeproj",
         "path": ".",
@@ -752,7 +776,7 @@
       "assets": []
     },
     "android": {
-      "sourceDir": "D:\\Users\\acsas\\projetos\\Elderly\\super_ano5_elderly\\aplicativo-v1\\android",
+      "sourceDir": "C:\\Users\\pltmt\\Downloads\\super_ano5_elderly-TodasScreens\\aplicativo-v1\\android",
       "appName": "app",
       "packageName": "com.aplicativo",
       "applicationId": "com.aplicativo",

@@ -59,6 +59,7 @@ export default function LoginScreen() {
   };
 
   // 🔹 Lógica de login
+
   const handleLogin = async () => {
     if (!username || !password) {
       Alert.alert("Erro", "Todos os campos são obrigatórios");
@@ -67,9 +68,11 @@ export default function LoginScreen() {
 
     if (isOffline) return;
 
+
     setLoading(true);
-    const result = await loginUser(username, password);
+    const result = await loginUser(username, password); // Envia username e password
     setLoading(false);
+
 
     console.log("🔍 Resposta da API:", result);
 
@@ -94,6 +97,7 @@ export default function LoginScreen() {
     }
   };
 
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -102,11 +106,12 @@ export default function LoginScreen() {
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
-        placeholder="CPF"
+        placeholder="Username"  // Alterado para "Username"
         placeholderTextColor="#888"
         value={username}
         onChangeText={setUsername}
         keyboardType="numeric"
+
         autoCapitalize="none"
       />
       <TextInput

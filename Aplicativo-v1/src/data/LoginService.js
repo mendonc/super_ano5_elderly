@@ -6,12 +6,14 @@ import qs from 'qs'; // Importa para garantir o formato correto
 export const loginUser = async (username, password) => {
   try {
     console.log("📤 Enviando login para API:", { username, password });
+    console.log("URL da requisição:", `${API_URL}/token`);
 
     const formData = qs.stringify({
       grant_type: "password",
       username: username,
       password: password
     });
+
 
     const response = await api.post('/users/token', formData, {
       headers: { 
@@ -28,9 +30,11 @@ export const loginUser = async (username, password) => {
     } else {
       throw new Error("Token não recebido.");
     }
+
   } catch (error) {
     console.error("❌ Erro ao fazer login:", error.response?.data || error);
     return null;
+
   }
 
 };
@@ -44,3 +48,4 @@ export const getUserByCPF = async (cpf) => {
     return null;
   }
 };
+
