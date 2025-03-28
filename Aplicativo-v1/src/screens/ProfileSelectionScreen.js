@@ -48,25 +48,26 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#fff',
-    },
-    title: {
+      },
+      title: {
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 20,
-    },
-    optionContainer: {
+        color: '#3468bb',
+      },
+      optionContainer: {
         padding: 15,
         borderWidth: 1,
-        borderColor: '#ccc',
+        borderColor: '#3468bb',
         borderRadius: 8,
         marginBottom: 15,
-        backgroundColor: '#f9f9f9',
+        backgroundColor: '#ffffff',
         width: '80%',
         alignItems: 'center',
-    },
-    optionText: {
+      },
+      optionText: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#333',
+        color: '#3468bb',
     },
 });

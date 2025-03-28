@@ -22,6 +22,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 
     return {"access_token": token, "token_type": "bearer"}
 
+
 @router.post("/")
 def create_user(user_data: UserCreateSchema):
     """Cria um novo usuário com senha criptografada"""

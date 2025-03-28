@@ -94,15 +94,15 @@ export default () => {
             <Modal animationType="slide" transparent visible={isModalVisible}>
                 <ModalContainer>
                     <ModalContent>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black'}}>
                             {isEditMode ? 'Editar Medicamento' : 'Adicionar Medicamento'}
                         </Text>
 
-                        <Input placeholder="Nome" value={currentMedicamento.name} onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, name: text })} />
-                        <Input placeholder="Dosagem" value={currentMedicamento.dosage} onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, dosage: text })} />
-                        <Input placeholder="Frequência" value={currentMedicamento.frequency} onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, frequency: text })} />
+                        <Input placeholder="Nome (Ex: Dipirona)" placeholderTextColor="rgb(63, 63, 63)" value={currentMedicamento.name} onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, name: text })} />
+                        <Input placeholder="Dosagem (Ex: 10mg)" placeholderTextColor="rgb(63, 63, 63)" value={currentMedicamento.dosage} onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, dosage: text })} />
+                        <Input placeholder="Frequência (Ex: 1x ao dia, 2x ao dia)" placeholderTextColor="rgb(63, 63, 63)" value={currentMedicamento.frequency} onChangeText={(text) => setCurrentMedicamento({ ...currentMedicamento, frequency: text })} />
 
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', color: 'black' }}>
                             <ModalButton onPress={isEditMode ? handleSaveMedicamento : handleAddMedicamento}>
                                 <ModalButtonText>{isEditMode ? 'Salvar' : 'Adicionar'}</ModalButtonText>
                             </ModalButton>

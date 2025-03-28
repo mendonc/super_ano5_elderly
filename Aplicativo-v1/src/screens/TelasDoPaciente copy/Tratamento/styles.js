@@ -51,6 +51,7 @@ export const Input = styled.TextInput`
   border-radius: 5px;
   margin-bottom: 10px;
   padding-left: 8px;
+  color: black
 `;
 
 export const ModalButton = styled.TouchableOpacity`

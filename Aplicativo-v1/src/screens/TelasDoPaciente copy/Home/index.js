@@ -67,8 +67,8 @@ export default () => {
 
       <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
         {/* Batimento Cardíaco */}
-        <SectionTitle>Seu batimento cardíaco:</SectionTitle>
-        <CardItem title="83 bpm" description="(Normal)" />
+        {/*<SectionTitle>Seu batimento cardíaco:</SectionTitle>*/}
+        {/*<CardItem title="83 bpm" description="(Normal)" />*/}
 
         {/* Linha Divisória */}
         <Divider />
@@ -135,24 +135,28 @@ export default () => {
 
             <TextInput
               placeholder="Data (ex: 20/02)"
+              placeholderTextColor="rgb(63, 63, 63)"
               value={novaConsulta.date}
               onChangeText={(text) => setNovaConsulta({ ...novaConsulta, date: text })}
               style={styles.input}
             />
             <TextInput
               placeholder="Horário (ex: 14:00)"
+              placeholderTextColor="rgb(63, 63, 63)"
               value={novaConsulta.time}
               onChangeText={(text) => setNovaConsulta({ ...novaConsulta, time: text })}
               style={styles.input}
             />
             <TextInput
               placeholder="Especialidade"
+              placeholderTextColor="rgb(63, 63, 63)"
               value={novaConsulta.specialty}
               onChangeText={(text) => setNovaConsulta({ ...novaConsulta, specialty: text })}
               style={styles.input}
             />
             <TextInput
               placeholder="Nome do Médico"
+              placeholderTextColor="rgb(63, 63, 63)"
               value={novaConsulta.doctor}
               onChangeText={(text) => setNovaConsulta({ ...novaConsulta, doctor: text })}
               style={styles.input}
@@ -224,6 +228,7 @@ const styles = {
     marginVertical: 8,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 5
+    borderRadius: 5,
+    color: 'black'
   },
 };

@@ -105,7 +105,7 @@ export default function SaudacaoSection({ onDayPress }) {
     return (
         <GreetingContainer>
             {/* Saudação dinâmica */}
-            <GreetingText>{greeting}, Usuário!</GreetingText>
+            <GreetingText>{greeting}!</GreetingText>
 
             {/* Navegação entre os dias */}
             <DaysContainer>
